@@ -16,11 +16,11 @@ def user_login(request):
             if user is not None:
                 if user.is_active:
                     login(request, user)
-                    return HttpResponse('Authenticated successfully')
+                    return HttpResponse('Autenticado com sucesso!')
                 else:
-                    return HttpResponse('Disabled account')
+                    return HttpResponse('Conta desativada!')
             else:
-                return HttpResponse('Invalid login')
+                return HttpResponse('Login inválido!')
     else:
         form = LoginForm()
     return render(request, 'participante/login.html', {'form': form})
@@ -58,9 +58,9 @@ def edit(request):
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
-            messages.success(request, 'Profile updated successfully')
+            messages.success(request, 'Perfil atualizado com sucesso')
         else:
-            messages.error(request, 'Error updating your profile')
+            messages.error(request, 'Erro na atualização do perfil')
     else:
         user_form = UserEditForm(instance=request.user)
         profile_form = ProfileEditForm(instance=request.user.profile)

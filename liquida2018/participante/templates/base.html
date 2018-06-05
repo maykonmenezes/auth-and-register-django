@@ -7,24 +7,24 @@
 </head>
 <body>
     <div id="header">
-        <span class="logo">Bookmarks</span>
+        <span class="logo">Liquida 2018</span>
         {% if request.user.is_authenticated %}
         <ul class="menu">
-            <li {% if section == "dashboard" %}class="selected"{% endif %}><a href="{% url "dashboard" %}">My dashboard</a></li>
-            <li {% if section == "images" %}class="selected"{% endif %}><a href="#">Images</a></li>
-            <li {% if section == "people" %}class="selected"{% endif %}><a href="#">People</a></li>
+            <li {% if section == "dashboard" %}class="selected"{% endif %}><a href="{% url "dashboard" %}">Minha Conta</a></li>
+            <li {% if section == "images" %}class="selected"{% endif %}><a href="#">Cupons</a></li>
+            <li {% if section == "people" %}class="selected"{% endif %}><a href="#">Premios</a></li>
         </ul>
         {% endif %}
-        
+
         <span class="user">
         {% if request.user.is_authenticated %}
-            Hello {{ request.user.first_name }}, <a href="{% url "logout" %}">Logout</a>
+            Olá {{ request.user.first_name }}, <a href="{% url "logout" %}">Sair</a>
         {% else %}
-            <a href="{% url "login" %}">Log-in</a>
+            <a href="{% url "login" %}">Entrar</a>
         {% endif %}
         </span>
     </div>
-    
+
     {% if messages %}
         <ul class="messages">
             {% for message in messages %}
@@ -35,7 +35,7 @@
             {% endfor %}
         </ul>
     {% endif %}
-    
+
     <div id="content">
         {% block content %}
         {% endblock %}
