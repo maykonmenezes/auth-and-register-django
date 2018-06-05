@@ -6,6 +6,8 @@ from django.contrib import messages
 from .forms import LoginForm, UserRegistrationForm, UserEditForm, ProfileEditForm
 from .models import Profile
 
+def homepage(request):
+    return render(request, 'participante/index.html', {'section': 'homepage'})
 
 def user_login(request):
     if request.method == 'POST':

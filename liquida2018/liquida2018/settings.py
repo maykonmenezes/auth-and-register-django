@@ -99,11 +99,11 @@ LOGIN_REDIRECT_URL = reverse_lazy('dashboard')
 LOGIN_URL = reverse_lazy('login')
 LOGOUT_URL = reverse_lazy('logout')
 
-#EMAIL_HOST = 'smtp.gmail.com'
-#EMAIL_HOST_USER = 'my_account@gmail.com'
-#EMAIL_HOST_PASSWORD = ''
-#EMAIL_PORT = 587
-#EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'maykon.meneses@gmail.com'
+EMAIL_HOST_PASSWORD = 'Tankyo0812'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
 
 # python-social-auth settings
 AUTHENTICATION_BACKENDS = (
@@ -115,8 +115,8 @@ AUTHENTICATION_BACKENDS = (
     'participante.authentication.EmailAuthBackend',
 )
 
-SOCIAL_AUTH_FACEBOOK_KEY = ''
-SOCIAL_AUTH_FACEBOOK_SECRET = ''
+SOCIAL_AUTH_FACEBOOK_KEY = '340442496482403'
+SOCIAL_AUTH_FACEBOOK_SECRET = '8c550fd5dd91ec4ebce457a00afea8ea'
 
 SOCIAL_AUTH_TWITTER_KEY = ''
 SOCIAL_AUTH_TWITTER_SECRET = ''
