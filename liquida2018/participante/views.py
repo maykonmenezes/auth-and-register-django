@@ -73,3 +73,11 @@ def edit(request):
 @login_required
 def dashboard(request):
     return render(request, 'participante/dashboard.html', {'section': 'dashboard'})
+    
+@login_required
+def coupons(request):
+    return render(request, 'participante/coupons.html', {'section': 'coupons'})
+
+@login_required
+def premios(request):
+    return render(request, 'participante/premios.html', {'section': 'premios'})

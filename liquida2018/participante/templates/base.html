@@ -12,22 +12,23 @@
     <!-- Plugin CSS -->
     <link rel="stylesheet" href="{% static "css/animate.min.css" %}" type="text/css">
     <!-- Custom CSS -->
+    <link href="{% static "css/base.css" %}" rel="stylesheet">
     <link rel="stylesheet" href="{% static "css/style.css" %}" type="text/css">
 
-    <link href="{% static "css/base.css" %}" rel="stylesheet">
+
 </head>
 <body>
     <div id="header">
         {% if request.user.is_authenticated %}
-        <span class="logo"><a href="{% url "dashboard" %}">Liquida 2018</a></span>
+        <span class="logo"><a href="{% url "dashboard" %}"><img src="{% static "img/image.png" %}" alt="liquida" id="logo" class="img-responsive"></a></span>
         {% else %}
-        <span class="logo"><a href="{% url "homepage" %}">Liquida 2018</a></span>
+        <span class="logo"><a href="{% url "homepage" %}"><img src="{% static "img/image.png" %}" alt="liquida" id="logo" class="img-responsive"></a></span>
         {% endif %}
         {% if request.user.is_authenticated %}
         <ul class="menu">
             <li {% if section == "dashboard" %}class="selected"{% endif %}><a href="{% url "dashboard" %}">Minha Conta</a></li>
-            <li {% if section == "images" %}class="selected"{% endif %}><a href="#">Cupons</a></li>
-            <li {% if section == "people" %}class="selected"{% endif %}><a href="#">Premios</a></li>
+            <li {% if section == "coupons" %}class="selected"{% endif %}><a href="{% url "coupons" %}">Cupons</a></li>
+            <li {% if section == "premios" %}class="selected"{% endif %}><a href="{% url "premios" %}">Premios</a></li>
         </ul>
         {% endif %}
 
@@ -39,6 +40,7 @@
         {% endif %}
         </span>
     </div>
+
 
     {% if messages %}
         <ul class="messages">

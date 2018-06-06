@@ -12,7 +12,18 @@
 
     <div class="login-form">
         <form action="{% url "login" %}" method="post">
-            {{ form.as_p }}
+          <!--{{ form.as_p }}-->
+          {{ form.non_field_errors }}
+          <div class="fieldWrapper">
+              {{ form.username.errors }}
+              <label for="{{ form.username.id_for_label }}">Usuario:</label>
+              {{ form.username }}
+          </div>
+          <div class="fieldWrapper">
+              {{ form.password.errors }}
+              <label for="{{ form.password.id_for_label }}">Senha:</label>
+              {{ form.password }}
+          </div>
             {% csrf_token %}
             <input type="hidden" name="next" value="{{ next }}" />
             <p><input type="submit" value="Entrar"></p>

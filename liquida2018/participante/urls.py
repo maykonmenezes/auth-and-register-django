@@ -7,6 +7,12 @@ urlpatterns = [
     url(r'^$', views.homepage, name='homepage'),
     url(r'^dash/$', views.dashboard, name='dashboard'),
 
+    # Coupons urls
+    url(r'^coupons/$', views.coupons, name='coupons'),
+
+    # Premios urls
+    url(r'^premios/$', views.premios, name='premios'),
+
 
     url(r'^register/$', views.register, name='register'),
     url(r'^edit/$', views.edit, name='edit'),
