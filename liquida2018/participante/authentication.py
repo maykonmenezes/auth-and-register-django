@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 
 class EmailAuthBackend(object):
     """
-    Authenticate using e-mail account.
+    Authenticate using CPF.
     """
     def authenticate(self, username=None, password=None):
         try:
