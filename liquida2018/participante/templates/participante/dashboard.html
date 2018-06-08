@@ -5,9 +5,9 @@
 {% block content %}
     <h1>Liquida2018</h1>
     <p>Bem vindo a sua conta do Liquida. Você pode <a href="{% url "edit" %}">editar o seu perfil</a> ou <a href="{% url "password_change" %}">mudar a sua senha</a>.</p>
-    <button type="button" id="mymodal" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+    <a type="button" id="mymodal" class="btn btn-primary btn-lg" data-toggle="modal" href="{% url "adddocfiscal" %}">
   Adicionar cupom
-</button>
+</a>
 
 <!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

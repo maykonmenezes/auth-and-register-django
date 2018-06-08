@@ -17,6 +17,10 @@ urlpatterns = [
     url(r'^register/$', views.register, name='register'),
     url(r'^edit/$', views.edit, name='edit'),
 
+    # Documentos Fiscais urls
+    url(r'^adddocfiscal/$', views.adddocfiscal, name='adddocfiscal'),
+    url(r'^editdocfiscal/$', views.editdocfiscal, name='editdocfiscal'),
+
     # login / logout urls
     url(r'^login/$', 'django.contrib.auth.views.login', name='login'),
     url(r'^logout/$', 'django.contrib.auth.views.logout', name='logout'),

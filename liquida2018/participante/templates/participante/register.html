@@ -6,8 +6,12 @@
     <h1>Criar uma conta</h1>
     <p>Por favor, preencha os seguintes dados para efetuar o seu cadastro:</p>
     <form action="." method="post">
-        {{ user_form.as_p }}
+      <div class=".container-fluid">
+        {{ user_form.as_table }}
+      </div>
+
         {% csrf_token %}
-        <p><input type="submit" value="Criar minha conta"></p>
+        <p><input type="submit" class="btn btn-primary btn-lg" value="Criar minha conta">
+            <a type="button" class="btn" href="/participante/dash">Cancelar</button></p>
     </form>
 {% endblock %}

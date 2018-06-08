@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}Adicionar documento fiscal{% endblock %}
+
+{% block content %}
+    <h1>Novo documento Fiscal</h1>
+    <p>Você precisa preencher as seguinter informações referentes ao seu documento fiscal:</p>
+    <form action="." method="post" enctype="multipart/form-data">
+        {{ documentoFiscal_form.as_p }}
+        {% csrf_token %}
+        <p><input type="submit" class="btn btn-primary btn-lg" value="Gravar">
+        <a type="button" class="btn" href="/participante/dash">Cancelar</button></p>
+    </form>
+{% endblock %}
