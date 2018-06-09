@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Adicionar Lojista{% endblock %}
+
+{% block content %}
+    <h1>Adicionar Lojista</h1>
+    <p>Por favor, preencha os seguintes dados para efetuar o seu cadastro de um novo lojista:</p>
+    <form action="." method="post">
+      <div class=".container-fluid">
+        {{ lojista_form.as_p }}
+      </div>
+
+        {% csrf_token %}
+        <p><input type="submit" class="btn btn-primary btn-lg" value="Salvar">
+            <a type="button" class="btn" href="/participante/dash">Cancelar</button></p>
+    </form>
+{% endblock %}
