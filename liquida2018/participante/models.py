@@ -1,7 +1,9 @@
 from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import User
+#from django.contrib.auth import get_user_model
 
+#from django_currentuser.db.models import CurrentUserField
 
 class Profile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL)
@@ -30,17 +32,17 @@ class Profile(models.Model):
     observacao = models.TextField(verbose_name=u'Observação', max_length=1000, blank=True, null=True ) #, widget=forms.Textarea(attrs={'placeholder': 'Escreva aqui alguma observação caso seja necessário.'}))
     dataCadastro = models.DateTimeField(verbose_name=u'Cadastrado em', auto_now_add=True, editable=False)   #nao vai aparecer na tela
     #CadastradoPor = CurrentUserField(verbose_name=u'Cadastrado Por')
-    pergunta = models.TextField(verbose_name=u'Observação', max_length=1000, blank=True, null=True ) #, widget=forms.Textarea(attrs={'placeholder': 'Escreva aqui alguma observação caso seja necessário.'}))
+    pergunta = models.TextField(verbose_name=u'Pergunta', max_length=50, blank=True, null=True ) #, widget=forms.Textarea(attrs={'placeholder': 'Escreva aqui alguma observação caso seja necessário.'}))
     ativo = models.BooleanField(default=True)
 
     def __str__(self):
-        return 'Perfil do usuario {}'.format(self.user.username)
+        return 'Nome completo {}'.format(self.user.username)
 
 
 class DocumentoFiscal(models.Model):
     #Lojista_Id = models.ForeignKey('Lojista', verbose_name=u'Loja', on_delete=models.SET_NULL, null=True)
     #Participante_Id = models.ForeignKey('Participante', default=1, verbose_name=u'Participante', on_delete=models.SET_NULL, null=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, default='1')
+    user =  models.ForeignKey(User, related_name='rel_username',editable=False)
     vendedor = models.CharField(verbose_name=u'Nome do Vendedor', max_length=50, blank=True, null=True)
     numeroDocumento = models.CharField(verbose_name=u'Número do Documento', max_length=12, blank=False, null=False)
     dataDocumento = models.DateField(verbose_name=u'Data do Documento', null=False, blank=False)
@@ -55,6 +57,7 @@ class DocumentoFiscal(models.Model):
     #CadastradoPor = CurrentUserField(verbose_name=u'Cadastrado Por')
 
     exclude=('valorREDE','valorMASTERCARD','valorVirtual')
+
 
     class Meta:
         #ordering = ['Participante_Id', 'NumeroDocumento']

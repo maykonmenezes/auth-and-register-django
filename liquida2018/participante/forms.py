@@ -63,6 +63,7 @@ class UserAddCoupom(forms.ModelForm):
     valorDoCupom = forms.DecimalField(label='Valor do cupom')
 
 class UserAddFiscalDocForm(forms.ModelForm):
+
     vendedor = forms.CharField(label='Vendedor', required=False)
     numeroDocumento = forms.CharField(label='Número do Documento')
     dataDocumento = forms.DateField(label='Data do documento')

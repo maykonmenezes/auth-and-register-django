@@ -82,11 +82,17 @@ def adddocfiscal(request):
             # Save the doc object
             new_documentoFiscal.save()
             return render(request,
-                          'participante/doc_fiscal_add.html',
+                          'participante/doc_fiscal_done.html',
                           {'new_documentoFiscal': new_documentoFiscal})
     else:
         documentoFiscal_form = UserAddFiscalDocForm()
     return render(request, 'participante/doc_fiscal_add.html', {'documentoFiscal_form': documentoFiscal_form})
+
+@login_required
+def doclist(request):
+    docs = DocumentoFiscal.objects.filter(user=request.user)
+    return render(request, 'participante/list_doc_fiscal.html', {'section': 'docsfiscais',
+                                                      'docs': docs})
 
 @login_required
 def editdocfiscal(request):

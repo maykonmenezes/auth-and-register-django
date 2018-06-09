@@ -38,6 +38,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    #'django_currentuser.middleware.ThreadLocalUserMiddleware',
 )
 
 ROOT_URLCONF = 'liquida2018.urls'
@@ -101,7 +102,7 @@ LOGOUT_URL = reverse_lazy('logout')
 
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'maykon.meneses@gmail.com'
-EMAIL_HOST_PASSWORD = 'Tankyo0812'
+EMAIL_HOST_PASSWORD = ''
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 

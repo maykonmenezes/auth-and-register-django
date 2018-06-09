@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Documentos Fiscais{% endblock %}
+
+{% block content %}
+    <h1>Meus documentos fiscais</h1>
+    <div id="doc-list">
+        {% for doc in docs %}
+            <div class="user">
+                <a href="#"><h2>Documento número: {{ doc.numeroDocumento }}</h1>
+                <p>Valor: {{ doc.valorDocumento }}</p></a>
+                
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

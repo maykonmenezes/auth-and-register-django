@@ -1,8 +1,12 @@
 from django.contrib import admin
-from .models import Profile
+from .models import Profile, DocumentoFiscal
 
 class ProfileAdmin(admin.ModelAdmin):
     list_display = ['user', 'date_of_birth', 'photo']
 
+class DocumentoFiscalAdmin(admin.ModelAdmin):
+    list_display = ['user', 'numeroDocumento']
+
 
 admin.site.register(Profile, ProfileAdmin)
+admin.site.register(DocumentoFiscal, DocumentoFiscalAdmin)

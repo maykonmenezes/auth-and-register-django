@@ -8,6 +8,9 @@ urlpatterns = [
     url(r'^dash/$', views.dashboard, name='dashboard'),
 
     # Coupons urls
+    url(r'^docsfiscais/$', views.doclist, name='docsfiscais'),
+
+    # Coupons urls
     url(r'^coupons/$', views.coupons, name='coupons'),
 
     # Premios urls
