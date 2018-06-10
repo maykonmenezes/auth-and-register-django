@@ -1,1 +1,17 @@
-ramo de atividade
+{% extends "base.html" %}
+
+{% block title %}Adicionar Ramo de Atividade{% endblock %}
+
+{% block content %}
+    <h1>Adicionar Ramo de Atividade</h1>
+    <p>Por favor, preencha os seguintes dados para efetuar o cadastro de um novo ramo de atividade:</p>
+    <form action="." method="post">
+      <div class=".container-fluid">
+        {{ ramoatividade_form.as_p }}
+      </div>
+
+        {% csrf_token %}
+        <p><input type="submit" class="btn btn-primary btn-lg" value="Salvar">
+            <a type="button" class="btn" href="/lojista">Cancelar</button></p>
+    </form>
+{% endblock %}

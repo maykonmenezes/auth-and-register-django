@@ -3,9 +3,9 @@
 {% block title %}Ramo de atividade adicionado{% endblock %}
 
 {% block content %}
-    <h1>Ramo de atividade {{ new_lojista.first_name }} adicionado com sucesso!</h1>
-    <p>Perfil de logista criado.</p>
-    <p><a type="button" id="mymodal" class="btn btn-primary btn-lg" data-toggle="modal" href="{% url "adddocfiscal" %}">
-  Adicionar outro perfil de lojista
+    <h1>Ramo de atividade {{ new_ramoatividade.atividade }} adicionado com sucesso!</h1>
+    <p>Ramo de atividade criado.</p>
+    <p><a type="button" id="mymodal" class="btn btn-primary btn-lg" data-toggle="modal" href="{% url "registeratividade" %}">
+  Adicionar outro ramo de atividade
 </a><a type="button" class="btn" href="/lojista">Voltar</button></p>
 {% endblock %}

@@ -10,3 +10,9 @@ class LojistaRegistrationForm(forms.ModelForm):
     class Meta:
         model = Lojista
         fields = '__all__'
+
+class RamoAtividadeRegistrationForm(forms.ModelForm):
+
+    class Meta:
+        model = RamoAtividade
+        fields = '__all__'

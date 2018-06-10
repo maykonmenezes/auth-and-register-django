@@ -125,3 +125,7 @@ def coupons(request):
 @login_required
 def premios(request):
     return render(request, 'participante/premios.html', {'section': 'premios'})
+
+@login_required
+def lojista(request):
+    return render(request, 'lojista/dashboard.html', {'section': 'lojista'})

@@ -3,8 +3,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .forms import LojistaRegistrationForm
-from .models import Lojista
+from .forms import LojistaRegistrationForm, RamoAtividadeRegistrationForm
+from .models import Lojista, RamoAtividade
 
 def homepage(request):
     return render(request, 'lojista/dashboard.html', {'section': 'homepage'})
@@ -45,3 +45,33 @@ def edit(request):
         profile_form = ProfileEditForm(instance=request.user.profile)
     return render(request, 'participante/edit.html', {'user_form': user_form,
                                                  'profile_form': profile_form})
+
+@login_required
+def lojistalist(request):
+    lojistas = Lojista.objects.all()
+    return render(request, 'lojista/list_lojistas.html', {'section': 'lojistas',
+                                                      'lojistas': lojistas})
+
+
+@login_required
+def registeratividade(request):
+    if request.method == 'POST':
+        ramoatividade_form = RamoAtividadeRegistrationForm(request.POST)
+
+        if ramoatividade_form.is_valid():
+            # Create a new user object but avoid saving it yet
+            new_ramoatividade = ramoatividade_form.save(commit=False)
+            # Save the User object
+            new_ramoatividade.save()
+            return render(request,
+                          'lojista/register_ramo_atividade_done.html',
+                          {'new_ramoatividade': new_ramoatividade})
+    else:
+        ramoatividade_form = RamoAtividadeRegistrationForm()
+    return render(request, 'lojista/register_ramo_atividade.html', {'ramoatividade_form': ramoatividade_form})
+
+@login_required
+def listatividade(request):
+    ramosatividade = RamoAtividade.objects.all()
+    return render(request, 'lojista/list_ramo_atividade.html', {'section': 'ramoatividade',
+                                                      'ramosatividade': ramosatividade})

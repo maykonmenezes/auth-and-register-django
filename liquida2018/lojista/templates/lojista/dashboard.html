@@ -4,8 +4,21 @@
 
 {% block content %}
     <h1>Lojistas</h1>
-    <a type="button" id="mymodal" class="btn btn-primary btn-lg" data-toggle="modal" href="{% url "register" %}">
-  Adicionar Lojistas
-</a>
-
+    <p>
+      <a type="button" id="mymodal" class="btn btn-primary btn-lg" data-toggle="modal" href="{% url "register" %}">
+        Adicionar Lojistas
+      </a>
+      <a type="button" id="mymodal" class="btn btn-secondary btn-lg" data-toggle="modal" href="{% url "list" %}">
+        Ver lojistas
+      </a>
+    </p>
+    <h1>Ramos de atividades</h1>
+    <p>
+      <a type="button" id="mymodal" class="btn btn-primary btn-lg" data-toggle="modal" href="{% url "registeratividade" %}">
+      Adicionar Ramo de atividade
+      </a>
+      <a type="button" id="mymodal" class="btn btn-secondary btn-lg" data-toggle="modal" href="{% url "listatividade" %}">
+        Ver Ramos de atividade
+      </a>
+    </p>
 {% endblock %}
