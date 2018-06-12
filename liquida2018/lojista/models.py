@@ -14,6 +14,8 @@ class RamoAtividade(models.Model):
 #    AlteradoPor_Id   = models.ForeignKey(User, blank=False, related_name='Cadastrado_por', editable=False, default=current_user.get_current_user)
     ativo = models.BooleanField(default=True)
 
+    exclude =('ativo')
+
     class Meta:
         ordering = ['atividade']
         verbose_name = (u'ramo de Atividade')
@@ -40,6 +42,7 @@ class Lojista(models.Model):
 #    AlteradoPor_Id   = models.ForeignKey(User, blank=False, related_name='Cadastrado_por', editable=False, default=current_user.get_current_user)
     ativo           = models.BooleanField(default=True)
 
+    exclude =('ativo')
 
     class Meta:
         ordering = ['fantasiaLojista']

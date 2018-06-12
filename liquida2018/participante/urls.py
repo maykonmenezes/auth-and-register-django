@@ -6,7 +6,7 @@ urlpatterns = [
     # url(r'^login/$', views.user_login, name='login'),
     url(r'^$', views.homepage, name='homepage'),
     url(r'^dash/$', views.dashboard, name='dashboard'),
-
+    url(r'^lojista/$', views.lojista, name='notfound'),
     # Coupons urls
     url(r'^docsfiscais/$', views.doclist, name='docsfiscais'),
 
@@ -39,6 +39,5 @@ urlpatterns = [
     url(r'^password-reset/confirm/(?P<uidb64>[-\w]+)/(?P<token>[-\w]+)/$', 'django.contrib.auth.views.password_reset_confirm', name='password_reset_confirm'),
     url(r'^password-reset/complete/$', 'django.contrib.auth.views.password_reset_complete', name='password_reset_complete'),
 
-    # lojistas urls
-    url(r'^lojista/$', views.lojista, name='lojista'),
+
 ]

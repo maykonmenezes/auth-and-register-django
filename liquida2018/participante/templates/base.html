@@ -28,13 +28,17 @@
         {% if request.user.is_authenticated %}
         <ul class="menu">
           {% if request.user|has_group:"gerente" %}
-          <li {% if section == "lojista" %}class="selected"{% endif %}><a href="{% url "lojista" %}">Lojistas</a></li>
-          {% endif %}
+          <li {% if section == "lojista" %}class="selected"{% endif %}><a href="{% url "lojista:homepage" %}">Lojistas</a></li>
+          <li {% if section == "lojistas" %}class="selected"{% endif %}><a href="{% url "lojista:list" %}">Listar Lojistas</a></li>
+          <li {% if section == "lojista" %}class="selected"{% endif %}><a href="{% url "lojista:homepage" %}">Participantes</a></li>
+          <li {% if section == "lojista" %}class="selected"{% endif %}><a href="{% url "lojista:homepage" %}">Cupons</a></li>
+          {% else %}
             <li {% if section == "dashboard" %}class="selected"{% endif %}><a href="{% url "dashboard" %}">Minha Conta</a></li>
             <li {% if section == "docsfiscais" %}class="selected"{% endif %}><a href="{% url "docsfiscais" %}">Documentos Fiscais</a></li>
             <li {% if section == "coupons" %}class="selected"{% endif %}><a href="{% url "coupons" %}">Cupons</a></li>
             <li {% if section == "premios" %}class="selected"{% endif %}><a href="{% url "premios" %}">Premios</a></li>
-        </ul>
+          {% endif %}
+          </ul>
         {% endif %}
 
         <span class="user">

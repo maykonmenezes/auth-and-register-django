@@ -1,24 +1,26 @@
 {% extends "base.html" %}
-
+{% load auth_extras %}
 {% block title %}Liquida 2018{% endblock %}
 
 {% block content %}
+
     <h1>Lojistas</h1>
     <p>
-      <a type="button" id="mymodal" class="btn btn-primary btn-lg" data-toggle="modal" href="{% url "register" %}">
+      <a type="button" id="mymodal" class="btn btn-primary btn-lg" data-toggle="modal" href="{% url "lojista:register" %}">
         Adicionar Lojistas
       </a>
-      <a type="button" id="mymodal" class="btn btn-secondary btn-lg" data-toggle="modal" href="{% url "list" %}">
+      <a type="button" id="mymodal" class="btn btn-secondary btn-lg" data-toggle="modal" href="{% url "lojista:list" %}">
         Ver lojistas
       </a>
     </p>
     <h1>Ramos de atividades</h1>
     <p>
-      <a type="button" id="mymodal" class="btn btn-primary btn-lg" data-toggle="modal" href="{% url "registeratividade" %}">
+      <a type="button" id="mymodal" class="btn btn-primary btn-lg" data-toggle="modal" href="{% url "lojista:registeratividade" %}">
       Adicionar Ramo de atividade
       </a>
-      <a type="button" id="mymodal" class="btn btn-secondary btn-lg" data-toggle="modal" href="{% url "listatividade" %}">
+      <a type="button" id="mymodal" class="btn btn-secondary btn-lg" data-toggle="modal" href="{% url "lojista:listatividade" %}">
         Ver Ramos de atividade
       </a>
     </p>
+
 {% endblock %}

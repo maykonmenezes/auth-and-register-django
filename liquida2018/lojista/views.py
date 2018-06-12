@@ -5,11 +5,16 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import LojistaRegistrationForm, RamoAtividadeRegistrationForm
 from .models import Lojista, RamoAtividade
-
-def homepage(request):
-    return render(request, 'lojista/dashboard.html', {'section': 'homepage'})
+from django.contrib.auth.decorators import user_passes_test
 
 @login_required
+@user_passes_test(lambda u: u.is_superuser)
+def homepage(request):
+    return render(request, 'lojista/dashboard.html', {'section': 'lojista'})
+
+
+@login_required
+@user_passes_test(lambda u: u.is_superuser)
 def register(request):
     if request.method == 'POST':
         lojista_form = LojistaRegistrationForm(request.POST)
@@ -27,6 +32,7 @@ def register(request):
     return render(request, 'lojista/register.html', {'lojista_form': lojista_form})
 
 @login_required
+@user_passes_test(lambda u: u.is_superuser)
 def edit(request):
     if request.method == 'POST':
         user_form = UserEditForm(instance=request.user,
@@ -47,6 +53,7 @@ def edit(request):
                                                  'profile_form': profile_form})
 
 @login_required
+@user_passes_test(lambda u: u.is_superuser)
 def lojistalist(request):
     lojistas = Lojista.objects.all()
     return render(request, 'lojista/list_lojistas.html', {'section': 'lojistas',
@@ -54,6 +61,7 @@ def lojistalist(request):
 
 
 @login_required
+@user_passes_test(lambda u: u.is_superuser)
 def registeratividade(request):
     if request.method == 'POST':
         ramoatividade_form = RamoAtividadeRegistrationForm(request.POST)
@@ -71,6 +79,7 @@ def registeratividade(request):
     return render(request, 'lojista/register_ramo_atividade.html', {'ramoatividade_form': ramoatividade_form})
 
 @login_required
+@user_passes_test(lambda u: u.is_superuser)
 def listatividade(request):
     ramosatividade = RamoAtividade.objects.all()
     return render(request, 'lojista/list_ramo_atividade.html', {'section': 'ramoatividade',

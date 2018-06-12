@@ -10,7 +10,7 @@ urlpatterns = [
     url(r'^$', include('participante.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^participante/', include('participante.urls')),
-    url(r'^lojista/', include('lojista.urls')),
+    url(r'^lojista/', include('lojista.urls', namespace='lojista')),
     # python-social-auth
     url('social-auth/', include('social.apps.django_app.urls', namespace='social')),
 ]
