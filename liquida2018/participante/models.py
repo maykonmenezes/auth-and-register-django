@@ -1,6 +1,9 @@
 from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import User
+from lojista.models import Lojista
+from django.utils.text import slugify
+from django.core.urlresolvers import reverse
 #from django.contrib.auth import get_user_model
 
 #from django_currentuser.db.models import CurrentUserField
@@ -43,8 +46,9 @@ class DocumentoFiscal(models.Model):
     #Lojista_Id = models.ForeignKey('Lojista', verbose_name=u'Loja', on_delete=models.SET_NULL, null=True)
     #Participante_Id = models.ForeignKey('Participante', default=1, verbose_name=u'Participante', on_delete=models.SET_NULL, null=True)
     user =  models.ForeignKey(User, related_name='rel_username',editable=False)
+    lojista =  models.ForeignKey(Lojista, related_name='rel_lojista', null=False, blank=False, default=1)
     vendedor = models.CharField(verbose_name=u'Nome do Vendedor', max_length=50, blank=True, null=True)
-    numeroDocumento = models.CharField(verbose_name=u'Número do Documento', max_length=12, blank=False, null=False)
+    numeroDocumento = models.CharField(verbose_name=u'Número do Documento', max_length=12, blank=False, null=False, unique=True)
     dataDocumento = models.DateField(verbose_name=u'Data do Documento', null=False, blank=False)
     valorDocumento = models.DecimalField(verbose_name=u'Valor do Documento', max_digits=7, decimal_places=2, blank=False, default=0)
     compradoREDE = models.BooleanField(verbose_name=u'Compra na REDE', default=False)
@@ -55,7 +59,7 @@ class DocumentoFiscal(models.Model):
     valorVirtual = models.DecimalField(verbose_name=u'Valor com Bonificações', max_digits=7, decimal_places=2, editable=False, blank=True, default=0)   #depois posso nao mostrar
     dataCadastro = models.DateTimeField(verbose_name=u'Cadastrado em', auto_now_add=True, editable=False)
     #CadastradoPor = CurrentUserField(verbose_name=u'Cadastrado Por')
-
+    #slug = models.SlugField(max_length=200, blank=True)
     exclude=('valorREDE','valorMASTERCARD','valorVirtual')
 
 
@@ -63,6 +67,9 @@ class DocumentoFiscal(models.Model):
         #ordering = ['Participante_Id', 'NumeroDocumento']
         verbose_name = (u'Documento Fiscal')
         verbose_name_plural = (u'Documentos Fiscais')
+
+    def get_absolute_url(self):
+        return reverse('documentosficais:detail', args=[self.numeroDocumento, self.slug])
 
 #    def soma_valor(self, ValorDocumento, CompradoREDE, CompradoMASTERCARD):
     def soma_valor(self):

@@ -1,9 +1,9 @@
 from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .forms import LoginForm, UserRegistrationForm, UserEditForm, ProfileEditForm, UserAddFiscalDocForm
+from .forms import LoginForm, UserRegistrationForm, UserEditForm, ProfileEditForm, UserAddFiscalDocForm, DocumentoFiscalEditForm
 from .models import Profile, DocumentoFiscal
 
 def homepage(request):
@@ -95,29 +95,25 @@ def doclist(request):
                                                       'docs': docs})
 
 @login_required
-def editdocfiscal(request):
+def editdocfiscal(request, numerodocumento):
     if request.method == 'POST':
-        user_form = UserEditForm(instance=request.user,
-                                 data=request.POST)
-        profile_form = ProfileEditForm(instance=request.user.profile,
-                                       data=request.POST,
-                                       files=request.FILES)
-        if user_form.is_valid() and profile_form.is_valid():
-            user_form.save()
-            profile_form.save()
-            messages.success(request, 'Perfil atualizado com sucesso')
+        instance = get_object_or_404(DocumentoFiscal, numeroDocumento=numerodocumento)
+        documentofiscal_form = DocumentoFiscalEditForm(instance=instance)
+        if documentofiscal_form.is_valid():
+            documentofiscal_form.save()
+            messages.success(request, 'Documento Fiscal atualizado com sucesso')
         else:
-            messages.error(request, 'Erro na atualização do perfil')
+            messages.error(request, 'Erro na atualização do Documento Fiscal')
     else:
-        user_form = UserEditForm(instance=request.user)
-        profile_form = ProfileEditForm(instance=request.user.profile)
-    return render(request, 'participante/edit.html', {'user_form': user_form,
-                                                 'profile_form': profile_form})
+        instance = get_object_or_404(DocumentoFiscal, numeroDocumento=numerodocumento)
+        documentofiscal_form = DocumentoFiscalEditForm(instance=instance)
+    return render(request, 'participante/doc_fiscal_edit.html', {'documentofiscal_form': documentofiscal_form})
 
 @login_required
 def dashboard(request):
     if request.user.is_superuser: return render(request, 'lojista/dashboard.html', {'section': 'lojista'})
-    return render(request, 'participante/dashboard.html', {'section': 'dashboard'})
+    docs = DocumentoFiscal.objects.filter(user=request.user)
+    return render(request, 'participante/dashboard.html', {'section': 'dashboard','docs': docs})
 
 @login_required
 def lojista(request):

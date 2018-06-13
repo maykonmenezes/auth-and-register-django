@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}Editar Documento{% endblock %}
+
+{% block content %}
+    <h1>Editar Documento Fiscal</h1>
+    <p>Você pode editar as seguintes informações do seu documento:</p>
+    <form action="." method="post" enctype="multipart/form-data">
+        {{ documentofiscal_form.as_p }}
+        {% csrf_token %}
+        <p><input type="submit" class="btn btn-primary btn-lg" value="Gravar">
+        <a type="button" class="btn" href="/participante/dash">Cancelar</button></p>
+    </form>
+{% endblock %}

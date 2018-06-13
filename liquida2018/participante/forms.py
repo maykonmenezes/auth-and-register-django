@@ -50,13 +50,13 @@ class UserRegistrationForm(forms.ModelForm):
 
 
 class UserEditForm(forms.ModelForm):
-    first_name = forms.CharField(label='Nome Completo')
-    last_name = forms.CharField(label='Sobrenome')
-    email = forms.CharField(label='Email')
-    CPF = forms.CharField(label='CPF')
     class Meta:
         model = User
-        fields = ('first_name', 'last_name', 'id')
+        fields = '__all__'
+        widgets = {
+            'ativo': forms.HiddenInput,
+        }
+
 
 class UserAddCoupom(forms.ModelForm):
     numeroDoCupom = forms.CharField(label='Numero do cupom')
@@ -77,6 +77,12 @@ class UserAddFiscalDocForm(forms.ModelForm):
         model = DocumentoFiscal
         fields = ('numeroDocumento', 'dataDocumento', 'valorDocumento', 'compradoREDE','valorREDE', 'compradoMASTERCARD', 'valorMASTERCARD',
         'photo', 'vendedor')
+
+class DocumentoFiscalEditForm(forms.ModelForm):
+    class Meta:
+        model = DocumentoFiscal
+        fields = '__all__'
+        
 
 class ProfileEditForm(forms.ModelForm):
     date_of_birth = forms.DateField(label='Data de Nascimento')
