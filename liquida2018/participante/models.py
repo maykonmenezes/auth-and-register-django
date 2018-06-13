@@ -2,7 +2,6 @@ from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import User
 from lojista.models import Lojista
-from django.utils.text import slugify
 from django.core.urlresolvers import reverse
 #from django.contrib.auth import get_user_model
 
@@ -14,7 +13,8 @@ class Profile(models.Model):
     photo = models.ImageField(upload_to='users/%Y/%m/%d', blank=True)
     CHOICES_SEXO = (('M', 'Masculino'), ('F', 'Feminino'))
     nome = models.CharField(max_length=70, blank=True)
-    RG = models.CharField(max_length=12, blank=True)
+    RG = models.CharField(max_length=12, blank=True, unique=True)
+    CPF = models.CharField(max_length=12, blank=True, unique=True)
     dataAtual = models.DateField(verbose_name=u'Data Atual', null=True, blank=True)  #mudar depois para nao colocar a data atual
     sexo = models.CharField(verbose_name=u'Sexo', max_length=1, choices=CHOICES_SEXO, blank=True, help_text=u'ex. M ou F')
     foneFixo = models.CharField(verbose_name=u'Telefone Fixo', max_length=15, blank=True, help_text=u'ex. (85)3212-0000')
@@ -60,7 +60,7 @@ class DocumentoFiscal(models.Model):
     dataCadastro = models.DateTimeField(verbose_name=u'Cadastrado em', auto_now_add=True, editable=False)
     #CadastradoPor = CurrentUserField(verbose_name=u'Cadastrado Por')
     #slug = models.SlugField(max_length=200, blank=True)
-    exclude=('valorREDE','valorMASTERCARD','valorVirtual')
+    
 
 
     class Meta:
@@ -69,7 +69,7 @@ class DocumentoFiscal(models.Model):
         verbose_name_plural = (u'Documentos Fiscais')
 
     def get_absolute_url(self):
-        return reverse('documentosficais:detail', args=[self.numeroDocumento, self.slug])
+        return reverse('editdocfiscal', args=[self.numeroDocumento])
 
 #    def soma_valor(self, ValorDocumento, CompradoREDE, CompradoMASTERCARD):
     def soma_valor(self):

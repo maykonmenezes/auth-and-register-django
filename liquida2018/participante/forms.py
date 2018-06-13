@@ -64,25 +64,28 @@ class UserAddCoupom(forms.ModelForm):
 
 class UserAddFiscalDocForm(forms.ModelForm):
 
-    vendedor = forms.CharField(label='Vendedor', required=False)
-    numeroDocumento = forms.CharField(label='Número do Documento')
-    dataDocumento = forms.DateField(label='Data do documento')
-    valorDocumento = forms.DecimalField(label='Valor do documento')
-    compradoREDE = forms.BooleanField(label='Compra na REDE?')
-    valorREDE = forms.DecimalField(label='Valor REDE')
-    photo = forms.ImageField(label='Foto do documento', required=False)
-    compradoMASTERCARD = forms.BooleanField(label='Compra com MASTERCARD?')
-    valorMASTERCARD = forms.DecimalField(label='Valor MASTERCARD')
     class Meta:
         model = DocumentoFiscal
-        fields = ('numeroDocumento', 'dataDocumento', 'valorDocumento', 'compradoREDE','valorREDE', 'compradoMASTERCARD', 'valorMASTERCARD',
-        'photo', 'vendedor')
+        fields = '__all__'
+        widgets = {
+            'compradoREDE': forms.HiddenInput,
+            'compradoMASTERCARD': forms.HiddenInput,
+            'valorREDE': forms.HiddenInput,
+            'valorMASTERCARD': forms.HiddenInput,
+            'valorVirtual': forms.HiddenInput,
+        }
 
 class DocumentoFiscalEditForm(forms.ModelForm):
     class Meta:
         model = DocumentoFiscal
         fields = '__all__'
-        
+        widgets = {
+            'compradoREDE': forms.HiddenInput,
+            'compradoMASTERCARD': forms.HiddenInput,
+            'valorREDE': forms.HiddenInput,
+            'valorMASTERCARD': forms.HiddenInput,
+            'valorVirtual': forms.HiddenInput,
+        }
 
 class ProfileEditForm(forms.ModelForm):
     date_of_birth = forms.DateField(label='Data de Nascimento')
