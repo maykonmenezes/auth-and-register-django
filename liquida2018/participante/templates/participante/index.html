@@ -51,10 +51,10 @@
 			<a class="page-scroll" href="#portfolio">Prêmios</a>
 			</li>
 			<li>
-			<a class="page-scroll" href="{% url "register" %}">Cadastre-se</a>
+			<a class="page-scroll" href="{% url 'participante:register' %}">Cadastre-se</a>
 			</li>
       <li>
-        <a href="{% url "dashboard" %}">Entrar</a>
+        <a href="{% url "participante:dashboard" %}">Entrar</a>
       </li>
 		</ul>
 	</div>
@@ -82,7 +82,7 @@
 				A maior campanha de varejo de Teresina </h2>
 				<h1 data-animation="animated bounceInUp">
 				Liquida Teresina 2018 </h1>
-				<a href="{% url "register" %}" class="btn btn-primary btn-lg page-scroll" data-animation="animated fadeInRight">Cadastre-se aqui</a>
+				<a href="{% url "participante:register" %}" class="btn btn-primary btn-lg page-scroll" data-animation="animated fadeInRight">Cadastre-se aqui</a>
 			</div>
 		</div>
 		<!-- /.item -->
@@ -236,7 +236,7 @@
 			<div class="tline-start-content">
 				<div class="tline-start-icon">
 				</div>
-				<a href="#contact" class="btn btn-primary bgn-xl wow zoomIn page-scroll">CADASTRE-SE</a>
+				<a href="{% url 'participante:register'}" class="btn btn-primary bgn-xl wow zoomIn page-scroll">CADASTRE-SE</a>
 			</div>
 			</li>
 		</ul>

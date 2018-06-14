@@ -4,6 +4,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import Profile
 from .models import DocumentoFiscal
+from localflavor.br.forms import *
+from localflavor.br.br_states import STATE_CHOICES
 
 
 class LoginForm(forms.Form):
@@ -17,7 +19,7 @@ class UserRegistrationForm(forms.ModelForm):
     username = forms.CharField(label='Nome de usuario*', help_text='Ex: nomeSobrenome2')
     first_name = forms.CharField(label='Nome Completo*', widget=forms.TextInput(attrs={'scope' : 'col'}))
     email = forms.EmailField(label='Email*', help_text='exemplo@gmail.com')
-    CPF = forms.CharField(label='CPF*')
+    CPF = BRCPFField(label="CPF",required=True, max_length=14, min_length=11)
     RG = forms.CharField( label='RG*')
     sexo = forms.CharField(label='Sexo')
     foneFixo = forms.CharField(label='Telefone Fixo', required=False, help_text='(DDD) 9 XXXX - XXXX')
@@ -33,13 +35,13 @@ class UserRegistrationForm(forms.ModelForm):
     bairro = forms.CharField(label='Bairro*')
     cidade = forms.CharField(label='Cidade*')
     estado = forms.CharField(label='Estado*')
-    cep = forms.CharField(label='Cep*')
+    cep = BRZipCodeField(label='Cep*')
     pergunta = forms.CharField(label='Qual a maior liquidação de Teresina?')
 
     class Meta:
         model = User
         fields = ('username', 'first_name', 'email', 'CPF', 'RG', 'sexo', 'foneFixo', 'foneCelular1', 'foneCelular2', 'foneCelular3',
-        'whatsapp', 'facebook', 'twitter', 'endereco', 'enderecoNumero', 'EnderecoComplemento', 'bairro', 'cidade', 'estado', 'cep', 'pergunta' )
+        'whatsapp', 'facebook', 'twitter', 'endereco', 'enderecoNumero', 'EnderecoComplemento', 'bairro', 'cidade', 'estado','cep', 'pergunta' )
 
 
     def clean_password2(self):
@@ -50,9 +52,31 @@ class UserRegistrationForm(forms.ModelForm):
 
 
 class UserEditForm(forms.ModelForm):
+    username = forms.CharField(label='Nome de usuario*', help_text='Ex: nomeSobrenome2')
+    first_name = forms.CharField(label='Nome Completo*', widget=forms.TextInput(attrs={'scope' : 'col'}))
+    email = forms.EmailField(label='Email*', help_text='exemplo@gmail.com')
+    CPF = BRCPFField(label="CPF",required=True, max_length=14, min_length=11)
+    RG = forms.CharField( label='RG*')
+    sexo = forms.CharField(label='Sexo')
+    foneFixo = forms.CharField(label='Telefone Fixo', required=False, help_text='(DDD) 9 XXXX - XXXX')
+    foneCelular1 = forms.CharField(label='Celular*', help_text='(DDD) 9 XXXX - XXXX')
+    foneCelular2 = forms.CharField(label='Celular 2', required=False, help_text='(DDD) 9 XXXX - XXXX')
+    foneCelular3 = forms.CharField(label='Celular 3', required=False, help_text='(DDD) 9 XXXX - XXXX')
+    whatsapp = forms.CharField(label='Whatsapp*', help_text='(DDD) 9 XXXX - XXXX')
+    facebook = forms.CharField(label='Facebook', required=False)
+    twitter = forms.CharField(label='Twitter', required=False, initial='@', help_text='Ex: @seuUsuario')
+    endereco = forms.CharField(label='Endereço*', help_text='Ex: Rua Sebastiao Ferreira')
+    enderecoNumero = forms.CharField(label='Número*', help_text='O numero da sua casa')
+    EnderecoComplemento = forms.CharField(label='Complemento', required=False, help_text='Ponto de referencia')
+    bairro = forms.CharField(label='Bairro*')
+    cidade = forms.CharField(label='Cidade*')
+    #estado = BRStateSelect( )
+    cep = BRZipCodeField(label='Cep*')
+
     class Meta:
         model = User
-        fields = '__all__'
+        fields = ('username', 'first_name', 'email', 'CPF', 'RG', 'sexo', 'foneFixo', 'foneCelular1', 'foneCelular2', 'foneCelular3',
+        'whatsapp', 'facebook', 'twitter', 'endereco', 'enderecoNumero', 'EnderecoComplemento', 'bairro', 'cidade','cep' )
         widgets = {
             'ativo': forms.HiddenInput,
         }

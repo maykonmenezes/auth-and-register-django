@@ -2,19 +2,20 @@ from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import User
 from lojista.models import Lojista
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 #from django.contrib.auth import get_user_model
+
 
 #from django_currentuser.db.models import CurrentUserField
 
 class Profile(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL,on_delete=models.PROTECT )
     date_of_birth = models.DateField(blank=True, null=True)
     photo = models.ImageField(upload_to='users/%Y/%m/%d', blank=True)
     CHOICES_SEXO = (('M', 'Masculino'), ('F', 'Feminino'))
     nome = models.CharField(max_length=70, blank=True)
-    RG = models.CharField(max_length=12, blank=True, unique=True)
-    CPF = models.CharField(max_length=12, blank=True, unique=True)
+    RG = models.CharField(max_length=12, blank=True)
+    CPF = models.CharField(max_length=12, blank=True)
     dataAtual = models.DateField(verbose_name=u'Data Atual', null=True, blank=True)  #mudar depois para nao colocar a data atual
     sexo = models.CharField(verbose_name=u'Sexo', max_length=1, choices=CHOICES_SEXO, blank=True, help_text=u'ex. M ou F')
     foneFixo = models.CharField(verbose_name=u'Telefone Fixo', max_length=15, blank=True, help_text=u'ex. (85)3212-0000')
@@ -45,8 +46,8 @@ class Profile(models.Model):
 class DocumentoFiscal(models.Model):
     #Lojista_Id = models.ForeignKey('Lojista', verbose_name=u'Loja', on_delete=models.SET_NULL, null=True)
     #Participante_Id = models.ForeignKey('Participante', default=1, verbose_name=u'Participante', on_delete=models.SET_NULL, null=True)
-    user =  models.ForeignKey(User, related_name='rel_username',editable=False)
-    lojista =  models.ForeignKey(Lojista, related_name='rel_lojista', null=False, blank=False, default=1)
+    user =  models.ForeignKey(User, related_name='rel_username',editable=False, on_delete=models.PROTECT)
+    lojista =  models.ForeignKey(Lojista, related_name='rel_lojista', null=False, blank=False, default=1, on_delete=models.PROTECT)
     vendedor = models.CharField(verbose_name=u'Nome do Vendedor', max_length=50, blank=True, null=True)
     numeroDocumento = models.CharField(verbose_name=u'Número do Documento', max_length=12, blank=False, null=False, unique=True)
     dataDocumento = models.DateField(verbose_name=u'Data do Documento', null=False, blank=False)
@@ -60,7 +61,7 @@ class DocumentoFiscal(models.Model):
     dataCadastro = models.DateTimeField(verbose_name=u'Cadastrado em', auto_now_add=True, editable=False)
     #CadastradoPor = CurrentUserField(verbose_name=u'Cadastrado Por')
     #slug = models.SlugField(max_length=200, blank=True)
-    
+
 
 
     class Meta:
@@ -69,7 +70,7 @@ class DocumentoFiscal(models.Model):
         verbose_name_plural = (u'Documentos Fiscais')
 
     def get_absolute_url(self):
-        return reverse('editdocfiscal', args=[self.numeroDocumento])
+        return reverse('participante:editdocfiscal', args=[self.numeroDocumento])
 
 #    def soma_valor(self, ValorDocumento, CompradoREDE, CompradoMASTERCARD):
     def soma_valor(self):

@@ -1,19 +1,21 @@
 """liquida2018 URL Configuration
 """
-from django.conf.urls import include, url
+from django.urls import include, path
+from django.conf.urls import url
 from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
-
+from participante import urls as purls
+from lojista import urls as lurls
 
 
 urlpatterns = [
-    url(r'^$', include('participante.urls')),
-    url(r'^admin/', include(admin.site.urls)),
-    url(r'^participante/', include('participante.urls')),
-    url(r'^lojista/', include('lojista.urls', namespace='lojista')),
+    path('', include(purls)),
+    path('admin/', admin.site.urls),
+    #url(r'^participante/', include(purls)),
+    path('lojista/', include(lurls, namespace='lojista')),
     # python-social-auth
-    url('social-auth/', include('social.apps.django_app.urls', namespace='social')),
+    #url('social-auth/', include('social.apps.django_app.urls', namespace='social')),
 ]
 
 if settings.DEBUG:

@@ -27,20 +27,18 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'social.apps.django_app.default',
+    #'social.apps.django_app.default',
 )
 
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE = [
+    'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django.middleware.security.SecurityMiddleware',
-    #'django_currentuser.middleware.ThreadLocalUserMiddleware',
-)
+]
 
 ROOT_URLCONF = 'liquida2018.urls'
 
@@ -97,14 +95,14 @@ STATICFILES_DIRS = [ os.path.join(BASE_DIR, 'static'), ]
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
-from django.core.urlresolvers import reverse_lazy
+from django.urls import reverse_lazy
 
-LOGIN_REDIRECT_URL = reverse_lazy('dashboard')
-LOGIN_URL = reverse_lazy('login')
-LOGOUT_URL = reverse_lazy('logout')
+LOGIN_REDIRECT_URL = reverse_lazy('participante:dashboard')
+LOGIN_URL = reverse_lazy('participante:login')
+LOGOUT_URL = reverse_lazy('participante:logout')
 
 ABSOLUTE_URL_OVERRIDES = {
-    'auth.user': lambda u: reverse_lazy('editdocfiscal', args=[u.nomedocumento])
+    'auth.user': lambda u: reverse_lazy('participante:editdocfiscal', args=[u.nomedocumento])
 }
 
 EMAIL_HOST = 'smtp.gmail.com'

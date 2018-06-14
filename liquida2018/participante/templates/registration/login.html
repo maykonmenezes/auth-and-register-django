@@ -7,11 +7,11 @@
     {% if form.errors %}
         <p>Seu nome de usuario e senha podem estar errados. Por favor tente novamente.</p>
     {% else %}
-        <p>Por favor, use os seguintes campos para entrar. Se você ainda não é cadastrado você pode <a href="{% url "register" %}">registrar aqui</a></p>
+        <p>Por favor, use os seguintes campos para entrar. Se você ainda não é cadastrado você pode <a href="{% url 'participante:register' %}">registrar aqui</a></p>
     {% endif %}
 
     <div class="login-form">
-        <form action="{% url "login" %}" method="post">
+        <form action="{% url "participante:login" %}" method="post">
           <!--{{ form.as_p }}-->
           {{ form.non_field_errors }}
           <div class="fieldWrapper">
@@ -28,14 +28,14 @@
             <input type="hidden" name="next" value="{{ next }}" />
             <p><input type="submit" class="btn btn-primary btn-lg" value="Entrar"></p>
         </form>
-        <p><a href="{% url "password_reset" %}">Esqueceu a sua senha?</a></p>
+        <p><a href="{% url 'participante:password_reset' %}">Esqueceu a sua senha?</a></p>
     </div>
 
-    <div class="social">
+    {% comment %} <div class="social">
         <ul>
             <li class="facebook"><a href="{% url "social:begin" "facebook" %}">Entrar com o facebook</a></li>
             <li class="twitter"><a href="{% url "social:begin" "twitter" %}">Entrar com o Twitter</a></li>
             <li class="google"><a href="{% url "social:begin" "google-oauth2" %}">Entrar com a conta Google</a></li>
         </ul>
-    </div>
+    </div> {% endcomment %}
 {% endblock %}
