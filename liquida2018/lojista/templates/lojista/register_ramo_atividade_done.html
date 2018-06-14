@@ -5,7 +5,7 @@
 {% block content %}
     <h1>Ramo de atividade {{ new_ramoatividade.atividade }} adicionado com sucesso!</h1>
     <p>Ramo de atividade criado.</p>
-    <p><a type="button" id="mymodal" class="btn btn-primary btn-lg" data-toggle="modal" href="{% url "registeratividade" %}">
+    <p><a type="button" id="mymodal" class="btn btn-primary btn-lg" data-toggle="modal" href="{% url "lojista:registeratividade" %}">
   Adicionar outro ramo de atividade
-</a><a type="button" class="btn" href="/lojista">Voltar</button></p>
+</a><a type="button" class="btn" href="{% url 'lojista:homepage' %}">Voltar</button></p>
 {% endblock %}

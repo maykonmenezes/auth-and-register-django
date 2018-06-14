@@ -9,7 +9,7 @@ urlpatterns = [
     # url(r'^login/$', views.user_login, name='login'),
     path('', views.homepage, name='homepage'),
     path('dash/', views.dashboard, name='dashboard'),
-    path('lojista/', views.lojista, name='notfound'),
+    #path('lojista/', views.lojista, name='notfound'),
     # Coupons paths
     path('docsfiscais/', views.doclist, name='docsfiscais'),
 

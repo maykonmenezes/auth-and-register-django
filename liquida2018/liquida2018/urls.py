@@ -7,12 +7,13 @@ from django.conf import settings
 from django.conf.urls.static import static
 from participante import urls as purls
 from lojista import urls as lurls
+from cupom import urls as curls
 
 
 urlpatterns = [
     path('', include(purls)),
     path('admin/', admin.site.urls),
-    #url(r'^participante/', include(purls)),
+    url('cupom/', include(curls, namespace='cupom')),
     path('lojista/', include(lurls, namespace='lojista')),
     # python-social-auth
     #url('social-auth/', include('social.apps.django_app.urls', namespace='social')),

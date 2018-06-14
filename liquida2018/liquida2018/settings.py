@@ -19,6 +19,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = (
+    'cupom',
     'participante',
     'lojista',
     'django.contrib.admin',

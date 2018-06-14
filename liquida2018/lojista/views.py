@@ -56,7 +56,7 @@ def edit(request):
 @user_passes_test(lambda u: u.is_superuser)
 def lojistalist(request):
     lojistas = Lojista.objects.all()
-    return render(request, 'lojista/list_lojistas.html', {'section': 'lojistas',
+    return render(request, 'lojista/list_lojistas.html', {'section': 'listar-lojistas',
                                                       'lojistas': lojistas})
 
 

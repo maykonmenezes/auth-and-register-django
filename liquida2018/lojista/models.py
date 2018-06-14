@@ -1,7 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import User
-
+from django_currentuser.db.models import CurrentUserField
 
 class RamoAtividade(models.Model):
     """
@@ -9,7 +9,7 @@ class RamoAtividade(models.Model):
     """
     atividade = models.CharField(max_length=80, help_text='Informe o Ramo de Atividade. (exemplo: alimentação, vestuário, restaurante, etc.)')
     dataCadastro    = models.DateTimeField(verbose_name=u'Cadastrado em', auto_now_add=True, editable=False)   #nao vai aparecer na tela
-    #CadastradoPor   = CurrentUserField(verbose_name=u'Cadastrado Por')
+    CadastradoPor   = CurrentUserField(verbose_name=u'Cadastrado Por')
 #    DataAlteracao   = models.DateTimeField(verbose_name=u'Alterado em', auto_now_add=True) #nao vai aparecer na tela
 #    AlteradoPor_Id   = models.ForeignKey(User, blank=False, related_name='Cadastrado_por', editable=False, default=current_user.get_current_user)
     ativo = models.BooleanField(default=True)
@@ -35,7 +35,7 @@ class Lojista(models.Model):
     fantasiaLojista = models.CharField(verbose_name=u'Nome Fantasia', max_length=70, blank=False, help_text=u'Nome Fantasia')
     ramoAtividade   = models.ForeignKey('RamoAtividade', verbose_name=u'Ramo de Atividade', on_delete=models.SET_NULL, null=True)
     dataCadastro    = models.DateTimeField(verbose_name=u'Cadastrado em', auto_now_add=True, editable=False)   #nao vai aparecer na tela
-    #CadastradoPor   = CurrentUserField(verbose_name=u'Cadastrado Por')
+    CadastradoPor   = CurrentUserField(verbose_name=u'Cadastrado Por')
 #    CadastradoPor_Id = models.ForeignKey(User, editable=False, default=User.pk, on_delete=models.SET_NULL, null=True)
 #    CadastradoPor_Id = models.ForeignKey(User, blank=False, related_name='Cadastrado_por', editable=False, default=current_user.get_current_user)
 #    DataAlteracao   = models.DateTimeField(verbose_name=u'Alterado em', auto_now_add=True) #nao vai aparecer na tela

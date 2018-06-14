@@ -4,9 +4,8 @@ from django.contrib.auth.models import User
 from lojista.models import Lojista
 from django.urls import reverse
 #from django.contrib.auth import get_user_model
+from django_currentuser.db.models import CurrentUserField
 
-
-#from django_currentuser.db.models import CurrentUserField
 
 class Profile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL,on_delete=models.PROTECT )
@@ -16,7 +15,7 @@ class Profile(models.Model):
     nome = models.CharField(max_length=70, blank=True)
     RG = models.CharField(max_length=12, blank=True)
     CPF = models.CharField(max_length=12, blank=True)
-    dataAtual = models.DateField(verbose_name=u'Data Atual', null=True, blank=True)  #mudar depois para nao colocar a data atual
+    #dataAtual = models.DateField(verbose_name=u'Data Atual', null=True, blank=True)  #mudar depois para nao colocar a data atual
     sexo = models.CharField(verbose_name=u'Sexo', max_length=1, choices=CHOICES_SEXO, blank=True, help_text=u'ex. M ou F')
     foneFixo = models.CharField(verbose_name=u'Telefone Fixo', max_length=15, blank=True, help_text=u'ex. (85)3212-0000')
     foneCelular1 = models.CharField(verbose_name=u'Celular1', max_length=15, blank=True, help_text=u'ex. (85)98888-8675')
@@ -35,7 +34,7 @@ class Profile(models.Model):
     CEP = models.CharField(max_length=10, blank=True)
     observacao = models.TextField(verbose_name=u'Observação', max_length=1000, blank=True, null=True ) #, widget=forms.Textarea(attrs={'placeholder': 'Escreva aqui alguma observação caso seja necessário.'}))
     dataCadastro = models.DateTimeField(verbose_name=u'Cadastrado em', auto_now_add=True, editable=False)   #nao vai aparecer na tela
-    #CadastradoPor = CurrentUserField(verbose_name=u'Cadastrado Por')
+    CadastradoPor = CurrentUserField(verbose_name=u'Cadastrado Por', related_name='rel_cadastrado_por',)
     pergunta = models.TextField(verbose_name=u'Pergunta', max_length=50, blank=True, null=True ) #, widget=forms.Textarea(attrs={'placeholder': 'Escreva aqui alguma observação caso seja necessário.'}))
     ativo = models.BooleanField(default=True)
 
@@ -59,7 +58,7 @@ class DocumentoFiscal(models.Model):
     valorMASTERCARD = models.DecimalField(verbose_name=u'Valor no MASTERCARD', max_digits=7, decimal_places=2, editable=False, blank=True, default=0)   #depois posso nao mostrar
     valorVirtual = models.DecimalField(verbose_name=u'Valor com Bonificações', max_digits=7, decimal_places=2, editable=False, blank=True, default=0)   #depois posso nao mostrar
     dataCadastro = models.DateTimeField(verbose_name=u'Cadastrado em', auto_now_add=True, editable=False)
-    #CadastradoPor = CurrentUserField(verbose_name=u'Cadastrado Por')
+    CadastradoPor = CurrentUserField(verbose_name=u'Cadastrado Por')
     #slug = models.SlugField(max_length=200, blank=True)
 
 

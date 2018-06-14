@@ -10,9 +10,16 @@ class LojistaRegistrationForm(forms.ModelForm):
     class Meta:
         model = Lojista
         fields = '__all__'
+        widgets = {
+            'ativo': forms.HiddenInput,
+            'CadastradoPor': forms.HiddenInput,
+        }
 
 class RamoAtividadeRegistrationForm(forms.ModelForm):
 
     class Meta:
         model = RamoAtividade
         fields = '__all__'
+        widgets = {
+            'CadastradoPor': forms.HiddenInput,
+        }
