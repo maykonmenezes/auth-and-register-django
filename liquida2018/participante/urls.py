@@ -2,6 +2,9 @@ from django.conf.urls import url
 from . import views
 from django.contrib.auth.views import *
 from django.urls import path, re_path
+from django_filters.views import FilterView
+from .filters import UserFilter
+
 
 app_name = 'participante'
 
@@ -10,6 +13,12 @@ urlpatterns = [
     path('', views.homepage, name='homepage'),
     path('dash/', views.dashboard, name='dashboard'),
     #path('lojista/', views.lojista, name='notfound'),
+    # path('search/', FilterView.as_view(filterset_class=UserFilter,
+    #     template_name='participante/participante_list.html'), name='search'),
+    path('search/', views.search, name='search'),
+
+    url(r'^list$', views.participante_list),
+
     # Coupons paths
     path('docsfiscais/', views.doclist, name='docsfiscais'),
 

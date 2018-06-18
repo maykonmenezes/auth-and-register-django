@@ -8,7 +8,7 @@ from django_currentuser.db.models import CurrentUserField
 
 
 class Profile(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL,on_delete=models.PROTECT )
+    user = models.OneToOneField(settings.AUTH_USER_MODEL,on_delete=models.PROTECT, related_name='profile' )
     date_of_birth = models.DateField(blank=True, null=True)
     photo = models.ImageField(upload_to='users/%Y/%m/%d', blank=True)
     CHOICES_SEXO = (('M', 'Masculino'), ('F', 'Feminino'))
@@ -34,7 +34,7 @@ class Profile(models.Model):
     CEP = models.CharField(max_length=10, blank=True)
     observacao = models.TextField(verbose_name=u'Observação', max_length=1000, blank=True, null=True ) #, widget=forms.Textarea(attrs={'placeholder': 'Escreva aqui alguma observação caso seja necessário.'}))
     dataCadastro = models.DateTimeField(verbose_name=u'Cadastrado em', auto_now_add=True, editable=False)   #nao vai aparecer na tela
-    CadastradoPor = CurrentUserField(verbose_name=u'Cadastrado Por', related_name='rel_cadastrado_por',)
+    CadastradoPor = CurrentUserField(verbose_name=u'Cadastrado Por', related_name='rel_cadastrado_por', editable=False)
     pergunta = models.TextField(verbose_name=u'Pergunta', max_length=50, blank=True, null=True ) #, widget=forms.Textarea(attrs={'placeholder': 'Escreva aqui alguma observação caso seja necessário.'}))
     ativo = models.BooleanField(default=True)
 
@@ -53,12 +53,13 @@ class DocumentoFiscal(models.Model):
     valorDocumento = models.DecimalField(verbose_name=u'Valor do Documento', max_digits=7, decimal_places=2, blank=False, default=0)
     compradoREDE = models.BooleanField(verbose_name=u'Compra na REDE', default=False)
     valorREDE = models.DecimalField(verbose_name=u'Valor na REDE', max_digits=7, decimal_places=2, editable=False, blank=True, default=0)   #depois posso nao mostrar
-    photo = models.ImageField(upload_to='docs/%Y/%m/%d', blank=True)
+    photo = models.ImageField(upload_to='docs/%Y/%m/%d', blank=True, verbose_name=u'Foto do documento fiscal')
+    photo2 = models.ImageField(upload_to='docs2/%Y/%m/%d', blank=True, verbose_name=u'Foto do comprovante do cartão')
     compradoMASTERCARD = models.BooleanField(verbose_name=u'Compra com MASTERCARD', default=False)
     valorMASTERCARD = models.DecimalField(verbose_name=u'Valor no MASTERCARD', max_digits=7, decimal_places=2, editable=False, blank=True, default=0)   #depois posso nao mostrar
     valorVirtual = models.DecimalField(verbose_name=u'Valor com Bonificações', max_digits=7, decimal_places=2, editable=False, blank=True, default=0)   #depois posso nao mostrar
     dataCadastro = models.DateTimeField(verbose_name=u'Cadastrado em', auto_now_add=True, editable=False)
-    CadastradoPor = CurrentUserField(verbose_name=u'Cadastrado Por')
+    CadastradoPor = CurrentUserField(verbose_name=u'Cadastrado Por', editable=False)
     #slug = models.SlugField(max_length=200, blank=True)
 
 

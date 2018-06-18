@@ -6,6 +6,15 @@ from django.contrib import messages
 from .forms import LojistaRegistrationForm, RamoAtividadeRegistrationForm
 from .models import Lojista, RamoAtividade
 from django.contrib.auth.decorators import user_passes_test
+from .filters import LojistaFilter
+
+@login_required
+@user_passes_test(lambda u: u.is_superuser)
+def search(request):
+      lojista_list = Lojista.objects.all()
+      lojista_filter = LojistaFilter(request.GET, queryset=lojista_list)
+      return render(request, 'lojista/lojistas_list.html', {'filter': lojista_filter,
+                                                                     'section':'lojistas'})
 
 @login_required
 @user_passes_test(lambda u: u.is_superuser)

@@ -1,10 +1,26 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import LoginForm, UserRegistrationForm, UserEditForm, ProfileEditForm, UserAddFiscalDocForm, DocumentoFiscalEditForm
 from .models import Profile, DocumentoFiscal
+from .filters import UserFilter, DocFilter
+from django.contrib.auth.decorators import login_required, user_passes_test
+
+@login_required
+@user_passes_test(lambda u: u.is_superuser)
+def search(request):
+      user_list = Profile.objects.all()
+      user_filter = UserFilter(request.GET, queryset=user_list)
+      return render(request, 'participante/participante_list.html', {'filter': user_filter,
+                                                                     'section':'participantes'})
+
+def participante_list(request):
+    f = ParticipanteFilter(request.GET, queryset=Profile.objects.all())
+    return render(request, 'participante/template.html', {'filter': f})
+
 
 def homepage(request):
     return render(request, 'participante/index.html', {'section': 'homepage'})
@@ -72,7 +88,8 @@ def edit(request):
 @login_required
 def adddocfiscal(request):
     if request.method == 'POST':
-        documentoFiscal_form = UserAddFiscalDocForm(request.POST)
+        documentoFiscal_form = UserAddFiscalDocForm(request.POST,
+                                                    files=request.FILES)
         user = request.user
         if documentoFiscal_form.is_valid():
             # Create a new document object but avoid saving it yet
@@ -90,9 +107,10 @@ def adddocfiscal(request):
 
 @login_required
 def doclist(request):
-    docs = DocumentoFiscal.objects.filter(user=request.user)
-    return render(request, 'participante/list_doc_fiscal.html', {'section': 'docsfiscais',
-                                                      'docs': docs})
+    docs_list = DocumentoFiscal.objects.filter(user=request.user)
+    docs_filter = DocFilter(request.GET, queryset=docs_list)
+    return render(request, 'participante/list_doc_fiscal.html', {'filter': docs_filter,
+                                                                   'section':'docsfiscais'})
 
 @login_required
 def editdocfiscal(request, numerodocumento):

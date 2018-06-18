@@ -4,7 +4,7 @@
 
 {% block content %}
     <h1>O documento numero {{ new_documentoFiscal.numeroDocumento }} foi lançado!</h1>
-    <p><a type="button" id="mymodal" class="btn btn-primary btn-lg" data-toggle="modal" href="{% url "adddocfiscal" %}">
+    <p><a type="button" id="mymodal" class="btn btn-primary btn-lg" data-toggle="modal" href="{% url "participante:adddocfiscal" %}">
   Adicionar outro documento fiscal
 </a><a type="button" class="btn" href="{% url 'participante:dashboard' %}">Voltar para minha conta</button></p>
 

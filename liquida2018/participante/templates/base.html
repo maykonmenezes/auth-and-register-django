@@ -29,8 +29,8 @@
         <ul class="menu">
           {% if request.user|has_group:"gerente" %}
           <li {% if section == "lojista" %}class="selected"{% endif %}><a href="{% url "lojista:homepage" %}">Lojistas</a></li>
-          <li {% if section == "listar-lojistas" %}class="selected"{% endif %}><a href="{% url "lojista:list" %}">Listar Lojistas</a></li>
-          <li {% if section == "users" %}class="selected"{% endif %}><a href="{% url "lojista:homepage" %}">Participantes</a></li>
+          <li {% if section == "lojistas" %}class="selected"{% endif %}><a href="{% url "lojista:search" %}">Listar Lojistas</a></li>
+          <li {% if section == "participantes" %}class="selected"{% endif %}><a href="{% url "participante:search" %}">Participantes</a></li>
           <li {% if section == "Cupons" %}class="selected"{% endif %}><a href="{% url "lojista:homepage" %}">Cupons Gerados</a></li>
           {% else %}
             <li {% if section == "dashboard" %}class="selected"{% endif %}><a href="{% url "participante:dashboard" %}">Minha Conta</a></li>
