@@ -3,10 +3,10 @@ from django.conf import settings
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import Lojista, RamoAtividade
-
+from localflavor.br.forms import *
 
 class LojistaRegistrationForm(forms.ModelForm):
-
+    CNPJLojista = BRCNPJField(label='CNPJ', required=True, max_length=18, widget=forms.TextInput(attrs={'class':'cnpj'}))
     class Meta:
         model = Lojista
         fields = '__all__'

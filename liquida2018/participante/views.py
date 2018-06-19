@@ -23,9 +23,24 @@ def participante_list(request):
 
 # def register2(request):
 #     return render(request, 'participante/register2.html', {'section': 'register2'})
-
 def homepage(request):
-    return render(request, 'participante/index.html', {'section': 'homepage'})
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            cd = form.cleaned_data
+            user = authenticate(username=cd['username'], password=cd['password'])
+            if user is not None:
+                if user.is_active and user.is_superuser:
+                    login(request, user)
+                    return render(request, 'lojista/dashboard.html')
+                elif user.is_active:
+                    login(request, user)
+                    return render(request, 'participante/dashboard.html')
+            else:
+                return HttpResponse('Login inválido!')
+    else:
+        login_form = LoginForm()
+    return render(request, 'participante/index.html', {'section': 'homepage', 'lf': login_form})
 
 def user_login(request):
     if request.method == 'POST':
@@ -64,7 +79,7 @@ def register(request):
             new_profile.save()
             return render(request,
                           'participante/register_done.html',
-                          {'new_user': new_user})
+                          {'new_user': new_profile})
     else:
         user_form = UserRegistrationForm()
         profile_form = ProfileRegistrationForm()

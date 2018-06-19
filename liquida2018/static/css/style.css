@@ -9,6 +9,11 @@ body {
 	color:#777;
 	line-height:1.7;
 }
+
+#entrar {
+	color: red;
+}
+
 hr {
 	max-width:50px;
 	border-color:#12c064;

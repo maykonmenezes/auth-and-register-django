@@ -12,7 +12,7 @@ from cupom import urls as curls
 
 urlpatterns = [
     path('', include(purls)),
-    path('admin/', admin.site.urls),
+    path('nimda/', admin.site.urls),
     url('cupom/', include(curls, namespace='cupom')),
     path('lojista/', include(lurls, namespace='lojista')),
     # python-social-auth

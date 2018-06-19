@@ -27,13 +27,13 @@
 <body>
     <div id="header">
         {% if request.user.is_authenticated %}
-        <span class="logo"><a href="{% url "participante:dashboard" %}"><img src="{% static "img/image.png" %}" alt="liquida" id="logo" class="img-responsive"></a></span>
+        <span class="logo"><a href="{% url "participante:dashboard" %}">Liquida Teresina 2018</a></span>
         {% else %}
-        <span class="logo"><a href="{% url "participante:homepage" %}"><img src="{% static "img/image.png" %}" alt="liquida" id="logo" class="img-responsive"></a></span>
+        <span class="logo"><a href="{% url "participante:homepage" %}">Liquida Teresina 2018</a></span>
         {% endif %}
         {% if request.user.is_authenticated %}
         <ul class="menu">
-          {% if request.user|has_group:"gerente" %}
+          {% if request.user.is_superuser %}
           <li {% if section == "lojista" %}class="selected"{% endif %}><a href="{% url "lojista:homepage" %}">Lojistas</a></li>
           <li {% if section == "lojistas" %}class="selected"{% endif %}><a href="{% url "lojista:search" %}">Listar Lojistas</a></li>
           <li {% if section == "participantes" %}class="selected"{% endif %}><a href="{% url "participante:search" %}">Participantes</a></li>
@@ -51,7 +51,7 @@
         {% if request.user.is_authenticated %}
             Olá {{ request.user.first_name }}, <a href="{% url "participante:logout" %}">Sair</a>
         {% else %}
-            <a class="btn btn-primary btn-lg" href="{% url "participante:login" %}">Entrar</a>
+            <a  href="{% url "participante:login" %}">Entrar</a>
         {% endif %}
         </span>
     </div>
@@ -82,8 +82,8 @@
     <script src="{% static "js/jquery.easing.min.js" %}"></script>
     <script src="{% static "js/wow.min.js" %}"></script>
     <script src="{% static "js/common.js" %}"></script>
-    <!--<script src="{% static "js/jquery.mask.min.js" %}"></script>
+    <script src="{% static "js/jquery.mask.min.js" %}"></script>
     <script src="{% static "js/jquery.mask.js" %}"></script>
-    <script src="{% static "js/masks.js" %}"></script>-->
+    <script src="{% static "js/masks.js" %}"></script>
 </body>
 </html>

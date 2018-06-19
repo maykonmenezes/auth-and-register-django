@@ -14,7 +14,7 @@ class Profile(models.Model):
     CHOICES_SEXO = (('M', 'Masculino'), ('F', 'Feminino'))
     nome = models.CharField(max_length=70, blank=True)
     RG = models.CharField(max_length=12, blank=True)
-    CPF = models.CharField(max_length=12, blank=True)
+    CPF = models.CharField(max_length=14, blank=True)
     #dataAtual = models.DateField(verbose_name=u'Data Atual', null=True, blank=True)  #mudar depois para nao colocar a data atual
     sexo = models.CharField(verbose_name=u'Sexo', max_length=1, choices=CHOICES_SEXO, blank=True, help_text=u'ex. M ou F')
     foneFixo = models.CharField(verbose_name=u'Telefone Fixo', max_length=15, blank=True, help_text=u'ex. (85)3212-0000')
