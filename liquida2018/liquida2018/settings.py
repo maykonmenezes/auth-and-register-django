@@ -29,7 +29,8 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'widget_tweaks',
-    'django_filters'
+    'django_filters',
+    'bootstrap4',
     #'social.apps.django_app.default',
 )
 

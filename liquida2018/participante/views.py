@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .forms import LoginForm, UserRegistrationForm, UserEditForm, ProfileEditForm, UserAddFiscalDocForm, DocumentoFiscalEditForm
+from .forms import LoginForm, UserRegistrationForm, UserEditForm, ProfileEditForm, UserAddFiscalDocForm, DocumentoFiscalEditForm, ProfileRegistrationForm
 from .models import Profile, DocumentoFiscal
 from .filters import UserFilter, DocFilter
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -21,6 +21,8 @@ def participante_list(request):
     f = ParticipanteFilter(request.GET, queryset=Profile.objects.all())
     return render(request, 'participante/template.html', {'filter': f})
 
+# def register2(request):
+#     return render(request, 'participante/register2.html', {'section': 'register2'})
 
 def homepage(request):
     return render(request, 'participante/index.html', {'section': 'homepage'})
@@ -47,8 +49,9 @@ def user_login(request):
 def register(request):
     if request.method == 'POST':
         user_form = UserRegistrationForm(request.POST)
-
-        if user_form.is_valid():
+        profile_form = ProfileRegistrationForm(request.POST,
+                                              files=request.FILES)
+        if user_form.is_valid() and profile_form.is_valid():
             # Create a new user object but avoid saving it yet
             new_user = user_form.save(commit=False)
             # Set the chosen password
@@ -56,13 +59,16 @@ def register(request):
             # Save the User object
             new_user.save()
             # Create the user profile
-            profile = Profile.objects.create(user=new_user)
+            new_profile = profile_form.save(commit=False)
+            new_profile.user = new_user
+            new_profile.save()
             return render(request,
                           'participante/register_done.html',
                           {'new_user': new_user})
     else:
         user_form = UserRegistrationForm()
-    return render(request, 'participante/register.html', {'user_form': user_form})
+        profile_form = ProfileRegistrationForm()
+    return render(request, 'participante/register2.html', {'user_form': user_form, 'profile_form': profile_form})
 
 
 @login_required

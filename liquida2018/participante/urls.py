@@ -4,6 +4,7 @@ from django.contrib.auth.views import *
 from django.urls import path, re_path
 from django_filters.views import FilterView
 from .filters import UserFilter
+from .models import Profile
 
 
 app_name = 'participante'

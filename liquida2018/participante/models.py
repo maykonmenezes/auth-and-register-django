@@ -19,12 +19,11 @@ class Profile(models.Model):
     sexo = models.CharField(verbose_name=u'Sexo', max_length=1, choices=CHOICES_SEXO, blank=True, help_text=u'ex. M ou F')
     foneFixo = models.CharField(verbose_name=u'Telefone Fixo', max_length=15, blank=True, help_text=u'ex. (85)3212-0000')
     foneCelular1 = models.CharField(verbose_name=u'Celular1', max_length=15, blank=True, help_text=u'ex. (85)98888-8675')
-    FoneCelular2 = models.CharField(verbose_name=u'Celular2', max_length=15, blank=True, help_text=u'ex. (85)98888-8675')
-    FoneCelular3 = models.CharField(verbose_name=u'Celular3', max_length=15, blank=True, help_text=u'ex. (85)98888-8675')
-    Whatsapp = models.CharField(max_length=15, blank=True, help_text=u'ex. (85)98888-8675')
-    Email = models.EmailField(max_length=60, blank=True, help_text=u'ex. nome@email.com')
-    Facebook = models.CharField(max_length=50, blank=True , help_text=u'ex. fb.com/nomenofacebook')
-    Twitter = models.CharField(max_length=50, blank=True)
+    foneCelular2 = models.CharField(verbose_name=u'Celular2', max_length=15, blank=True, help_text=u'ex. (85)98888-8675')
+    foneCelular3 = models.CharField(verbose_name=u'Celular3', max_length=15, blank=True, help_text=u'ex. (85)98888-8675')
+    whatsapp = models.CharField(max_length=15, blank=True, help_text=u'ex. (85)98888-8675')
+    facebook = models.CharField(max_length=50, blank=True , help_text=u'ex. fb.com/nomenofacebook')
+    twitter = models.CharField(max_length=50, blank=True)
     endereco = models.CharField(verbose_name=u'Endereço', max_length=50, blank=True)
     enderecoNumero = models.CharField(verbose_name=u'Nº Endereço', max_length=8, blank=True)
     enderecoComplemento = models.CharField(verbose_name=u'Complemento', max_length=30, blank=True)
@@ -34,12 +33,14 @@ class Profile(models.Model):
     CEP = models.CharField(max_length=10, blank=True)
     observacao = models.TextField(verbose_name=u'Observação', max_length=1000, blank=True, null=True ) #, widget=forms.Textarea(attrs={'placeholder': 'Escreva aqui alguma observação caso seja necessário.'}))
     dataCadastro = models.DateTimeField(verbose_name=u'Cadastrado em', auto_now_add=True, editable=False)   #nao vai aparecer na tela
-    CadastradoPor = CurrentUserField(verbose_name=u'Cadastrado Por', related_name='rel_cadastrado_por', editable=False)
+    cadastradoPor = CurrentUserField(verbose_name=u'Cadastrado Por', related_name='rel_cadastrado_por', editable=False)
     pergunta = models.TextField(verbose_name=u'Pergunta', max_length=50, blank=True, null=True ) #, widget=forms.Textarea(attrs={'placeholder': 'Escreva aqui alguma observação caso seja necessário.'}))
     ativo = models.BooleanField(default=True)
+    pendente = models.BooleanField(default=True,verbose_name=u'Pendente' )
 
     def __str__(self):
         return 'Nome completo {}'.format(self.user.username)
+
 
 
 class DocumentoFiscal(models.Model):
@@ -59,7 +60,8 @@ class DocumentoFiscal(models.Model):
     valorMASTERCARD = models.DecimalField(verbose_name=u'Valor no MASTERCARD', max_digits=7, decimal_places=2, editable=False, blank=True, default=0)   #depois posso nao mostrar
     valorVirtual = models.DecimalField(verbose_name=u'Valor com Bonificações', max_digits=7, decimal_places=2, editable=False, blank=True, default=0)   #depois posso nao mostrar
     dataCadastro = models.DateTimeField(verbose_name=u'Cadastrado em', auto_now_add=True, editable=False)
-    CadastradoPor = CurrentUserField(verbose_name=u'Cadastrado Por', editable=False)
+    cadastradoPor = CurrentUserField(verbose_name=u'Cadastrado Por', editable=False)
+    status = models.BooleanField(verbose_name=u'Status', default=False)
     #slug = models.SlugField(max_length=200, blank=True)
 
 

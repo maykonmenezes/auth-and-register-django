@@ -1,14 +1,13 @@
 {% extends "base.html" %}
 {% load bootstrap4 %}
 
-{% block title %}Criar uma conta{% endblock %}
+{% block title %}Informações do perfil{% endblock %}
 
 {% block content %}
-    <h1>Criar uma conta</h1>
-    <p>Por favor, preencha os seguintes dados para efetuar o seu cadastro:</p>
+    <h1>Estamos quase lá</h1>
+    <p>Por favor, preencha os seguintes dados para concluir o seu cadastro:</p>
     <form action="." method="post">
 
-        {% bootstrap_form user_form layout='horizontal' %}
         {% bootstrap_form profile_form layout='horizontal' %}
 
         {% csrf_token %}
