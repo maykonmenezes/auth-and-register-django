@@ -8,6 +8,7 @@ from django.conf.urls.static import static
 from participante import urls as purls
 from lojista import urls as lurls
 from cupom import urls as curls
+from bcp import urls as burls
 
 
 urlpatterns = [
@@ -15,6 +16,7 @@ urlpatterns = [
     path('nimda/', admin.site.urls),
     url('cupom/', include(curls, namespace='cupom')),
     path('lojista/', include(lurls, namespace='lojista')),
+    path('barcode/', include(burls, namespace='bcp')),
     # python-social-auth
     #url('social-auth/', include('social.apps.django_app.urls', namespace='social')),
 ]

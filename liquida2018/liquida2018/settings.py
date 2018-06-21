@@ -20,6 +20,7 @@ DATE_INPUT_FORMATS = ['%d-%m-%Y']
 # Application definition
 
 INSTALLED_APPS = (
+    'bcp',
     'cupom',
     'participante',
     'lojista',

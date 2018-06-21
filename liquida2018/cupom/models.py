@@ -1,5 +1,3 @@
-import qrcode
-from io import StringIO
 
 from django.db import models
 from django.conf import settings
@@ -30,21 +28,9 @@ class Cupom(models.Model):
     def get_absolute_url(self):
         return reverse('cupom:details', args=[str(self.numeroCupom)])
 
-    def generate_qrcode(self):
-        qr = qrcode.QRCode(
-            version=1,
-            error_correction=qrcode.constants.ERROR_CORRECT_L,
-            box_size=6,
-            border=0,
-        )
-        qr.add_data(self.get_absolute_url())
-        qr.make(fit=True)
-
-        img = qr.make_image()
-
-        buffer = io.StringIO.StringIO()
-        img.save(buffer)
-        filename = 'cupons-%s.png' % (self.id)
-        filebuffer = InMemoryUploadedFile(
-            buffer, None, filename, 'image/png', buffer.len, None)
-        self.qrcode.save(filename, filebuffer)
+    def get_info(self):
+        return 'Cupom número: {} Usúario: {} Documento Fiscal: {} Operador: {} Data de impressão: {} '.format(self.numeroCupom,
+                                                                                                              self.user.profile.nome,
+                                                                                                              self.documentoFiscal.numeroDocumento,
+                                                                                                              operador.profile.nome,
+                                                                                                              self.dataImpressao)

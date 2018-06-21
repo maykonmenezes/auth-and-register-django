@@ -6,7 +6,9 @@ from django.contrib import messages
 from django.contrib.auth.decorators import user_passes_test
 from .forms import AddCupomForm, EditCupomForm
 from .models import Cupom
-
+from bcp.views import print_barcode
+from participante.models import DocumentoFiscal
+from .crypto import Crpto
 @login_required
 @user_passes_test(lambda u: u.is_superuser)
 def detail(request):
@@ -22,6 +24,7 @@ def addcupom(request, numerodocumento):
             new_cupom = cupom_form.save(commit=False)
             new_cupom.documentoFiscal = doc
             new_cupom.user = doc.user
+            new_cupom.operador = request.user
             new_cupom.save()
             messages.success(request, 'Cupom gerado com sucesso')
     else:
@@ -36,5 +39,9 @@ def cupomlist(request, username):
                                                       'cupons': cupons})
 @login_required
 @user_passes_test(lambda u: u.is_superuser)
-def printCupom(request):
-    print('imprimir')
+def printCupom(request, numerodocumento):
+    doc_instance = get_object_or_404(DocumentoFiscal, numeroDocumento=numerodocumento )
+    cupons = Cupom.objects.filter(doc_instance)
+    for cupon in cupons:
+        token = Crpto.tokenGen(cupon.get_info)
+        print_barcode(request, 'Code128', token)

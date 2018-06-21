@@ -176,6 +176,7 @@ def editdocfiscal(request, numerodocumento):
         documentofiscal_form = DocumentoFiscalEditForm(instance=instance)
     return render(request, 'participante/doc_fiscal_edit.html', {'documentofiscal_form': documentofiscal_form})
 
+
 @login_required
 def dashboard(request):
     if request.user.is_superuser: return render(request, 'lojista/dashboard.html', {'section': 'lojista'})
