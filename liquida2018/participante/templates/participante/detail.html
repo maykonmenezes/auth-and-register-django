@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% load thumbnail %}
+{% load bootstrap4 %}
+{% block title %}{{ user.profile.nome }}{% endblock %}
+
+{% block content %}
+    <h1>{{ user.nome }}</h1>
+    <div class="profile-info">
+      {% thumbnail user.photo "100x100" crop="center" as im %}
+      <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+  {% endthumbnail %}
+    </div>
+
+    <h1>Documentos Lançados {{ user.username }}</h1>
+    <div id="doc-list" class="table-responsive">
+      <table class="table table-hover table-striped">
+        <thead>
+          <tr>
+            <th>Loja</th>
+            <th>Vendedor</th>
+            <th>Documentos</th>
+            <th>Data da Compra</th>
+            <th>Valor</th>
+            <th>Imagem</th>
+            <th>MASTERCARD</th>
+            <th>Rede</th>
+            <th>Validado</th>
+            <th>Pendencias</th>
+            <th>Cupons</th>
+            <th>Imprimir</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for doc in docs %}
+
+              <tr>
+                <td>{{ doc.lojista }}</td>
+                <td>{{ doc.vendedor}}</td>
+                <td><a href="{{ doc.get_absolute_url }}">{{ doc.numeroDocumento }}</a></td>
+                <td>{{ doc.dataDocumento }}</td>
+                <td>{{ doc.valorDocumento }}</td>
+                <td><button><span class="glyphicon glyphicon-picture" aria-hidden="true"></span></button></td>
+                <td><button><span class="glyphicon glyphicon-picture" aria-hidden="true"></span></button></td>
+                <td> <input type="checkbox" name="" value=""> </td>
+                <td> <input type="checkbox" name="" value=""> </td>
+                <td> <input type="checkbox" name="" value=""> </td>
+                <td>Ilegivel</td>
+                <td>X</td>
+                <td><button><span class="glyphicon glyphicon-print" aria-hidden="true"></span></button></td>
+              </tr>
+
+          {% empty %}
+            <tr>
+              <td colspan="5">Nenhum documento lançado</td>
+            </tr>
+
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+{% endblock %}

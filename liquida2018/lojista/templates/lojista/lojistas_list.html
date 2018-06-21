@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load bootstrap4 %}
 {% load widget_tweaks %}
 
 {% block content %}
@@ -17,24 +17,22 @@
       </div>
     </div>
   </form>
-
-  <table class="table table-bordered">
+<div class="table-responsive">
+  <table class="table table-hover table-striped">
     <thead>
       <tr>
+        <th>Nome Fantasia</th>
         <th>CNPJ do Lojista</th>
         <th>Inscrição Estadual</th>
-        <th>Razão Social</th>
-        <th>Nome Fantasia</th>
         <th>Ramo de Atividade</th>
       </tr>
     </thead>
     <tbody>
       {% for lojista in filter.qs %}
         <tr>
-          <td>{{ lojista.CNPJLojista }}</td>
-          <td>{{ lojista.IELojista }}</td>
-          <td>{{ lojista.razaoLojista }}</td>
           <td>{{ lojista.fantasiaLojista }}</td>
+          <td><a href="{{ lojista.get_absolute_url }}">{{ lojista.CNPJ }}</a></td>
+          <td>{{ lojista.IELojista }}</td>
           <td>{{ lojista.ramoAtividade }}</td>
         </tr>
       {% empty %}
@@ -44,4 +42,5 @@
       {% endfor %}
     </tbody>
   </table>
+</div>
 {% endblock %}

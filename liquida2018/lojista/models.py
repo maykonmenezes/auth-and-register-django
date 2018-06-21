@@ -2,6 +2,7 @@ from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import User
 from django_currentuser.db.models import CurrentUserField
+from django.urls import reverse
 
 class RamoAtividade(models.Model):
     """
@@ -55,3 +56,6 @@ class Lojista(models.Model):
         String representando o Objeto Participante.
         """
         return self.fantasiaLojista
+
+    def get_absolute_url(self):
+        return reverse('lojista:editlojista', args=[self.IELojista])

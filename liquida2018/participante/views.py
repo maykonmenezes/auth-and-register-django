@@ -8,11 +8,12 @@ from .forms import LoginForm, UserRegistrationForm, UserEditForm, ProfileEditFor
 from .models import Profile, DocumentoFiscal
 from .filters import UserFilter, DocFilter
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.db.models.functions import Lower, Upper
 
 @login_required
 @user_passes_test(lambda u: u.is_superuser)
 def search(request):
-      user_list = Profile.objects.all()
+      user_list = Profile.objects.all().order_by(Upper('nome').asc())
       user_filter = UserFilter(request.GET, queryset=user_list)
       return render(request, 'participante/participante_list.html', {'filter': user_filter,
                                                                      'section':'participantes'})
@@ -37,7 +38,8 @@ def homepage(request):
                     login(request, user)
                     return render(request, 'participante/dashboard.html')
             else:
-                return HttpResponse('Login inválido!')
+                login_form = LoginForm()
+                return render(request, 'participante/index.html', {'section': 'homepage', 'lf': login_form})
     else:
         login_form = LoginForm()
     return render(request, 'participante/index.html', {'section': 'homepage', 'lf': login_form})
@@ -105,6 +107,32 @@ def edit(request):
         profile_form = ProfileEditForm(instance=request.user.profile)
     return render(request, 'participante/edit.html', {'user_form': user_form,
                                                  'profile_form': profile_form})
+
+
+@login_required
+def user_detail(request, username):
+    user = get_object_or_404(User, username=username, is_active=True)
+    profile = get_object_or_404(Profile, user=user)
+    docs_list = DocumentoFiscal.objects.filter(user=user)
+    return render(request, 'participante/detail.html', {'section': 'people','user': profile, 'docs': docs_list})
+
+@login_required
+@user_passes_test(lambda u: u.is_superuser)
+def user_edit(request, username):
+    if request.method == 'POST':
+        instance_user = get_object_or_404(User, username=username)
+        instance_profile = get_object_or_404(Profile, user=instance_user)
+        profile_form = ProfileEditForm(instance=instance_profile)
+        if profile_form.is_valid():
+            profile_form.save()
+            messages.success(request, 'Participante validado com sucesso')
+        else:
+            messages.error(request, 'Erro na validação do Participante')
+    else:
+        instance_user = get_object_or_404(User, username=username)
+        instance_profile = get_object_or_404(Profile, user=instance_user)
+        user_form = ProfileEditForm(instance=instance_profile)
+    return render(request, 'participante/edit.html', {'profile_form': user_form})
 
 @login_required
 def adddocfiscal(request):

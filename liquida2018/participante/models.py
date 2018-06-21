@@ -7,6 +7,7 @@ from django.urls import reverse
 from django_currentuser.db.models import CurrentUserField
 
 
+
 class Profile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL,on_delete=models.PROTECT, related_name='profile' )
     date_of_birth = models.DateField(blank=True, null=True)
@@ -41,6 +42,11 @@ class Profile(models.Model):
     def __str__(self):
         return 'Nome completo {}'.format(self.user.username)
 
+    def get_absolute_url_edit(self):
+        return reverse('participante:user_edit', args=[self.user.username])
+
+    def get_absolute_url_detail(self):
+        return reverse('participante:user_detail', args=[self.user.username])
 
 
 class DocumentoFiscal(models.Model):

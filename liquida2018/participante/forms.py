@@ -82,7 +82,7 @@ class UserAddCoupom(forms.ModelForm):
     valorDoCupom = forms.DecimalField(label='Valor do cupom')
 
 class UserAddFiscalDocForm(forms.ModelForm):
-
+    dataDocumento = forms.DateField(label='Data do documento',widget=forms.TextInput(attrs={ 'class':'date'}))
     class Meta:
         model = DocumentoFiscal
         fields = '__all__'

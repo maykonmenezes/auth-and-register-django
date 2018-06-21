@@ -7,11 +7,12 @@ from .forms import LojistaRegistrationForm, RamoAtividadeRegistrationForm
 from .models import Lojista, RamoAtividade
 from django.contrib.auth.decorators import user_passes_test
 from .filters import LojistaFilter
+from django.db.models.functions import Lower, Upper
 
 @login_required
 @user_passes_test(lambda u: u.is_superuser)
 def search(request):
-      lojista_list = Lojista.objects.all()
+      lojista_list = Lojista.objects.all().order_by(Upper('fantasiaLojista').asc())
       lojista_filter = LojistaFilter(request.GET, queryset=lojista_list)
       return render(request, 'lojista/lojistas_list.html', {'filter': lojista_filter,
                                                                      'section':'lojistas'})
@@ -60,6 +61,21 @@ def edit(request):
         profile_form = ProfileEditForm(instance=request.user.profile)
     return render(request, 'participante/edit.html', {'user_form': user_form,
                                                  'profile_form': profile_form})
+
+@login_required
+def editlojista(request, ielojista):
+    if request.method == 'POST':
+        instance = get_object_or_404(Lojista, IELojista=ielojista)
+        lojista_form = LojistaRegistrationForm(instance=instance)
+        if lojista_form.is_valid():
+            lojista_form.save()
+            messages.success(request, 'Perfil atualizado com sucesso')
+        else:
+            messages.error(request, 'Erro na atualização do Lojista')
+    else:
+        instance = get_object_or_404(Lojista, IELojista=ielojista)
+        lojista_form = LojistaRegistrationForm(instance=instance)
+    return render(request, 'lojista/edit.html', {'lojista_form': lojista_form})
 
 @login_required
 @user_passes_test(lambda u: u.is_superuser)
