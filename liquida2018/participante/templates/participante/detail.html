@@ -12,16 +12,16 @@
     </div>
 
     <h1>Documentos Lançados {{ user.username }}</h1>
-    <div id="doc-list" class="table-responsive">
-      <table class="table table-hover table-striped">
+    <div class="table-responsive">
+      <table class="table table-hover table-bordered text-center">
         <thead>
           <tr>
             <th>Loja</th>
-            <th>Vendedor</th>
             <th>Documentos</th>
             <th>Data da Compra</th>
             <th>Valor</th>
-            <th>Imagem</th>
+            <th>Documento fiscal</th>
+            <th>Comprovante do Cartão</th>
             <th>MASTERCARD</th>
             <th>Rede</th>
             <th>Validado</th>
@@ -35,20 +35,70 @@
 
               <tr>
                 <td>{{ doc.lojista }}</td>
-                <td>{{ doc.vendedor}}</td>
                 <td><a href="{{ doc.get_absolute_url }}">{{ doc.numeroDocumento }}</a></td>
-                <td>{{ doc.dataDocumento }}</td>
+                <td>{{ doc.dataDocumento|date:"d M Y" }}</td>
                 <td>{{ doc.valorDocumento }}</td>
-                <td><button><span class="glyphicon glyphicon-picture" aria-hidden="true"></span></button></td>
-                <td><button><span class="glyphicon glyphicon-picture" aria-hidden="true"></span></button></td>
-                <td> <input type="checkbox" name="" value=""> </td>
+                <td><a data-toggle="modal" href="#{{ doc.numeroDocumento }}fiscal"class="btn btn-primary a-btn-slide-text btn-sm">
+              <span class="glyphicon glyphicon-picture" aria-hidden="true"></span>
+              <span><strong>Ver</strong></span> </a></td>
+                <td><a data-toggle="modal" href="#{{ doc.numeroDocumento }}cartao"class="btn btn-primary a-btn-slide-text btn-sm">
+              <span class="glyphicon glyphicon-picture" aria-hidden="true"></span>
+              <span><strong>Ver</strong></span> </a></td>
+                <td>  <input type="checkbox" name="" value=""> </td>
                 <td> <input type="checkbox" name="" value=""> </td>
                 <td> <input type="checkbox" name="" value=""> </td>
                 <td>Ilegivel</td>
                 <td>X</td>
-                <td><button><span class="glyphicon glyphicon-print" aria-hidden="true"></span></button></td>
+                <td><a data-toggle="modal" class="btn btn-primary a-btn-slide-text btn-sm">
+              <span class="glyphicon glyphicon-print" aria-hidden="true"></span>
+              <span><strong>Imprimir</strong></span></span></button></td>
               </tr>
 
+              <!-- Modal -->
+              <div class="modal fade" id="{{ doc.numeroDocumento }}fiscal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h2 class="modal-title" id="exampleModalLabel">Documento fiscal {{ doc.numeroDocumento }}</h2>
+
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+
+                      <img class="img-responsive" src="{{ MEDIA_URL }}{{ doc.photo }}">
+
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Modal -->
+              <div class="modal fade" id="{{ doc.numeroDocumento }}cartao" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h2 class="modal-title" id="exampleModalLabel">Comprovante do cartão do {{ doc.numeroDocumento }}</h2>
+
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+
+                      <img class="img-responsive" src="{{ MEDIA_URL }}{{ doc.photo2 }}">
+
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
           {% empty %}
             <tr>
               <td colspan="5">Nenhum documento lançado</td>

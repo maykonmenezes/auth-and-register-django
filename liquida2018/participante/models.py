@@ -71,6 +71,8 @@ class DocumentoFiscal(models.Model):
     #slug = models.SlugField(max_length=200, blank=True)
 
 
+    def __str__(self):
+        return 'Documento: {}'.format(self.numeroDocumento)
 
     class Meta:
         #ordering = ['Participante_Id', 'NumeroDocumento']

@@ -6,7 +6,8 @@ from .models import Lojista, RamoAtividade
 from localflavor.br.forms import *
 
 class LojistaRegistrationForm(forms.ModelForm):
-    CNPJLojista = BRCNPJField(label='CNPJ', required=True, max_length=18, widget=forms.TextInput(attrs={'class':'cnpj'}))
+    CNPJLojista = BRCNPJField(label='CNPJ*', required=True, max_length=18, widget=forms.TextInput(attrs={'class':'cnpj'}))
+    ramoAtividade =  forms.Select(attrs={'class':'form-group'}) 
     class Meta:
         model = Lojista
         fields = '__all__'

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load bootstrap4 %}
+{% block title %}Adicionar Ramo de Atividade{% endblock %}
+
+{% block content %}
+<form method="get">
+  <div class="well">
+    <h4 style="margin-top: 0">Informe o CPF do participante</h4>
+    <div class="row">
+      <div class="form-group col-sm-4 col-md-3">
+        {{ filter.form.CPF.label_tag }}
+        {% render_field filter.form.CPF class="form-control cpf" %}
+      </div>
+      <button type="submit" class="btn btn-primary">
+        <span class="glyphicon glyphicon-search"></span> Buscar
+      </button>
+    </div>
+  </div>
+</form>
+{% endblock %}

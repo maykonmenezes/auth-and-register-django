@@ -5,14 +5,42 @@
 {% block content %}
     <h1>Adicionar Lojista</h1>
     <p>Por favor, preencha os seguintes dados para efetuar o seu cadastro de um novo lojista:</p>
-    
+
     <form action="." method="post" class="form-group">
       <div class="container-fluid col-md-6">
-        {% bootstrap_form  lojista_form layout='horizontal' show_help=False %}
-      </div>
+        {% bootstrap_field  lojista_form.CNPJLojista layout='horizontal' show_help=False %}
+        {% bootstrap_field  lojista_form.IELojista layout='horizontal' show_help=False %}
+        {% bootstrap_field  lojista_form.razaoLojista layout='horizontal' show_help=False %}
+        {% bootstrap_field  lojista_form.ramoAtividade layout='horizontal' show_help=False addon_after='<a data-toggle="modal" href="#novoRamo" class="btn btn-secondary"><span class="glyphicon glyphicon-plus" aria-hidden="true"></a>' addon_after_class='input-group-btn' %}
+
+          <!-- Modal -->
+          <div class="modal fade" id="novoRamo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h2 class="modal-title" id="exampleModalLabel">Adicionar novo ramo de atividade</h2>
+
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                
+                  <form action="." method="post" class="form-group">
+                    <div class=".container-fluid col-md-6">
+                      {% bootstrap_form ramoatividade_form layout='horizontal' exclude='ativo' %}
+                    </div>
+                  </div>
+                      <div class="modal-footer">
+
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
 
         {% csrf_token %}
-        <p><input type="submit" class="btn btn-primary btn-lg" value="Salvar">
-            <a type="button" class="btn" href="{% url 'lojista:homepage' %}">Cancelar</button></p>
+        <input type="submit" class="btn btn-primary btn-lg" value="Salvar">
+            <a type="button" class="btn" href="{% url 'lojista:homepage' %}">Cancelar</button>
     </form>
 {% endblock %}

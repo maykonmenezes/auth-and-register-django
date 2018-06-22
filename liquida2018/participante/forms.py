@@ -65,13 +65,10 @@ class ProfileRegistrationForm(forms.ModelForm):
 
 
 class UserEditForm(forms.ModelForm):
-    username = forms.CharField(label='Nome de usuario*', help_text='Ex: nomeSobrenome2')
-    first_name = forms.CharField(label='Nome Completo*', widget=forms.TextInput(attrs={'scope' : 'col'}))
-    email = forms.EmailField(label='Email*', help_text='exemplo@gmail.com')
 
     class Meta:
         model = User
-        fields = ('username', 'first_name', 'email')
+        fields = '__all__'
         widgets = {
             'ativo': forms.HiddenInput,
         }
@@ -107,18 +104,16 @@ class DocumentoFiscalEditForm(forms.ModelForm):
         }
 
 class ProfileEditForm(forms.ModelForm):
-    date_of_birth = forms.DateField(label='Data de Nascimento')
+    date_of_birth = forms.DateField(label='Data de Nascimento',required=False)
     photo = forms.ImageField(label='Foto')
-    RG = forms.CharField( label='RG')
-    sexo = forms.CharField(label='Sexo')
     CPF = BRCPFField(label="CPF",required=True, max_length=14, min_length=11)
     RG = forms.CharField( label='RG*')
-    sexo = forms.CharField(label='Sexo')
+    sexo = forms.CharField(label='Sexo*')
     foneFixo = forms.CharField(label='Telefone Fixo', required=False, help_text='(DDD) 9 XXXX - XXXX')
     foneCelular1 = forms.CharField(label='Celular*', help_text='(DDD) 9 XXXX - XXXX')
     foneCelular2 = forms.CharField(label='Celular 2', required=False, help_text='(DDD) 9 XXXX - XXXX')
     foneCelular3 = forms.CharField(label='Celular 3', required=False, help_text='(DDD) 9 XXXX - XXXX')
-    whatsapp = forms.CharField(label='Whatsapp*', help_text='(DDD) 9 XXXX - XXXX')
+    whatsapp = forms.CharField(label='Whatsapp', required=False, help_text='(DDD) 9 XXXX - XXXX')
     facebook = forms.CharField(label='Facebook', required=False)
     twitter = forms.CharField(label='Twitter', required=False, initial='@', help_text='Ex: @seuUsuario')
     endereco = forms.CharField(label='Endereço*', help_text='Ex: Rua Sebastiao Ferreira')
@@ -130,5 +125,5 @@ class ProfileEditForm(forms.ModelForm):
     cep = BRZipCodeField(label='Cep*')
     class Meta:
         model = Profile
-        fields = ('date_of_birth', 'photo', 'RG', 'sexo' , 'CPF', 'RG', 'sexo', 'foneFixo', 'foneCelular1', 'foneCelular2', 'foneCelular3',
+        fields = ('date_of_birth', 'photo', 'RG' , 'CPF','sexo', 'foneFixo', 'foneCelular1', 'foneCelular2', 'foneCelular3',
         'whatsapp', 'facebook', 'twitter', 'endereco', 'enderecoNumero', 'enderecoComplemento', 'bairro', 'cidade','cep' )

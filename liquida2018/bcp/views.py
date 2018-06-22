@@ -1,9 +1,10 @@
 from cupom.models import Cupom
+from participante.models import DocumentoFiscal
 from django.http import HttpResponse
 from django.http import HttpResponseBadRequest
 from django.urls import reverse
 from django.shortcuts import render
-
+from django.shortcuts import render, redirect, get_object_or_404
 from django.conf import settings
 
 try:
@@ -20,6 +21,13 @@ def print_barcode_embed_example(request, code, barcode_type, template='embed_exa
     context = { 'bcp_url': bcp_url, }
     return render(request, template, context)
 
+def print_qrcode(request, code, numerodocumento, template='print.html'):
+    """
+    This page causes the browser to request the barcode be printed
+    """
+    pdf_url = reverse('bcp:generate', kwargs = {'numerodocumento': numerodocumento, 'code': code,})
+    context = { 'pdf_url': pdf_url, }
+    return render(request, template, context)
 
 def print_barcode(request, code, barcode_type, template='print.html'):
     """
@@ -30,7 +38,7 @@ def print_barcode(request, code, barcode_type, template='print.html'):
     return render(request, template, context)
 
 
-def generate(request, code, barcode_type='Standard39', auto_print=True):
+def generate(request, code, numerodocumento,  barcode_type='Standard39', auto_print=True):
     """
      Returns a PDF Barcode using ReportLab
     """
@@ -52,7 +60,8 @@ def generate(request, code, barcode_type='Standard39', auto_print=True):
     bar_width = bcp_settings.BAR_WIDTH
     font_name = bcp_settings.FONT_NAME
     font_path = bcp_settings.FONT_PATH
-
+    doc = get_object_or_404(DocumentoFiscal, numeroDocumento=numerodocumento)
+    cupom = get_object_or_404(Cupom, documentoFiscal=doc)
         # If this is extended to different barcode types, then these options will need to be specified differently, eg not all formats support checksum.
     qr_code = qr.QrCodeWidget(code)
 
@@ -75,6 +84,7 @@ def generate(request, code, barcode_type='Standard39', auto_print=True):
     lineTitle = String(105, 171, "_______________________________________", textAnchor='middle', fontName=font_name, fontSize=font_size)
     dadosParticipante = String(105, 177, "Dados do Participante", textAnchor='middle', fontSize=font_size)
     nome = String(30, 160, "Nome:", textAnchor='middle', fontSize=font_size)
+    nomeParticipante = String(70, 160, '{}'.format(doc.user), textAnchor='middle', fontSize=font_size)
     cpf = String(27, 145, "CPF:", textAnchor='middle', fontSize=font_size)
     cidade = String(31, 130, "Cidade:", textAnchor='middle', fontSize=font_size)
     estado = String(150, 130, "Estado:", textAnchor='middle', fontSize=font_size)
@@ -91,6 +101,7 @@ def generate(request, code, barcode_type='Standard39', auto_print=True):
     c.add(dadosParticipante)
     c.add(lineTitle)
     c.add(nome)
+    c.add(nomeParticipante)
     c.add(cpf)
     c.add(cidade)
     c.add(estado)

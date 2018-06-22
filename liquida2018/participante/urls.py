@@ -22,7 +22,7 @@ urlpatterns = [
 
 
     re_path(r'^participante/(?P<username>[-\w]+)/detail$', views.user_detail, name='user_detail'),
-    re_path(r'^participante/(?P<username>[-\w]+)/edit$', views.user_edit, name='user_edit'),
+    re_path(r'^participante/edit/(?P<username>[-\w]+)/$', views.user_edit, name='user_edit'),
     # Coupons paths
     path('docsfiscais/', views.doclist, name='docsfiscais'),
 

@@ -18,6 +18,15 @@ def search(request):
       return render(request, 'participante/participante_list.html', {'filter': user_filter,
                                                                      'section':'participantes'})
 
+@login_required
+@user_passes_test(lambda u: u.is_superuser)
+def search_cpf(request, cpf):
+    if request.method == 'GET':
+        profile_instance = get_object_or_404(Profile, CPF=cpf)
+
+    return render(request, 'participante/search_cpf.html', {'filter': user_filter,
+                                                                     'section':'participantes'})
+
 def participante_list(request):
     f = ParticipanteFilter(request.GET, queryset=Profile.objects.all())
     return render(request, 'participante/template.html', {'filter': f})
@@ -122,7 +131,10 @@ def user_edit(request, username):
     if request.method == 'POST':
         instance_user = get_object_or_404(User, username=username)
         instance_profile = get_object_or_404(Profile, user=instance_user)
-        profile_form = ProfileEditForm(instance=instance_profile)
+        profile_form = ProfileEditForm(instance=instance_profile,
+                                        data=request.POST,
+                                        files=request.FILES)
+
         if profile_form.is_valid():
             profile_form.save()
             messages.success(request, 'Participante validado com sucesso')
@@ -131,8 +143,8 @@ def user_edit(request, username):
     else:
         instance_user = get_object_or_404(User, username=username)
         instance_profile = get_object_or_404(Profile, user=instance_user)
-        user_form = ProfileEditForm(instance=instance_profile)
-    return render(request, 'participante/edit.html', {'profile_form': user_form})
+        profile_form = ProfileEditForm(instance=instance_profile)
+    return render(request, 'participante/editbyoperador.html', {'profile_form': profile_form})
 
 @login_required
 def adddocfiscal(request):
@@ -165,7 +177,8 @@ def doclist(request):
 def editdocfiscal(request, numerodocumento):
     if request.method == 'POST':
         instance = get_object_or_404(DocumentoFiscal, numeroDocumento=numerodocumento)
-        documentofiscal_form = DocumentoFiscalEditForm(instance=instance)
+        documentofiscal_form = DocumentoFiscalEditForm(instance=instance,data=request.POST,
+                                                                        files=request.FILES)
         if documentofiscal_form.is_valid():
             documentofiscal_form.save()
             messages.success(request, 'Documento Fiscal atualizado com sucesso')
