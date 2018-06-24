@@ -11,6 +11,8 @@ from .filters import UserFilter, DocFilter
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.db.models.functions import Lower, Upper
 
+def not_found_page_view(request):
+    return render(request, 'not_found.html')
 
 @login_required
 @user_passes_test(lambda u: u.is_superuser)
@@ -21,14 +23,16 @@ def search(request):
                                                                      'section':'participantes'})
 
 def search_by_cpf(request):
-    if request.method == 'POST':
-        cpf_form = SearchByCpfForm(request.POST)
-        cpf = cpf_form['CPF'].value()
-        if cpf_form.is_valid():
+    if(request.GET.get('q')):
+        if 'q' in request.GET is not None:
+            cpf = request.GET.get('q')
             profile = get_object_or_404(Profile, CPF=cpf)
-            return render(request, 'participante/detail2.html', {'user': profile})
-    cpf_form = SearchByCpfForm(request.POST)
-    return render(request, 'participante/search_by_cpf.html', {'cpf_form': cpf_form})
+            user = get_object_or_404(User, username= profile.user.username)
+            docs = DocumentoFiscal.objects.filter(user=user)
+            return render(request, 'participante/detail.html', {'section': 'people','user': profile, 'docs': docs})
+        else:
+            messages.error(request, 'CPF não encontrado!')
+    return render(request, 'participante/search_by_cpf.html')
 
 def participante_list(request):
     f = ParticipanteFilter(request.GET, queryset=Profile.objects.all())

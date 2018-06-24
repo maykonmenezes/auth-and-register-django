@@ -4,14 +4,12 @@
 
 {% block content %}
 <h1>Buscar pelo CPF do participante</h1>
-<form action="." method="post" enctype="multipart/form-data" class="form-group">
-  <div class="container-fluid col-md-6">
-      {% bootstrap_form cpf_form layout='horizontal' show_help=False %}
-
+<form method="get" class="form-group">
+  <div class="container-fluid col-md-3">
+      <input type="text" name="q" class="form-control cpf" placeholder="XXX.XXX.XXX-XX">
+      <p><input type="submit" class="btn btn-primary btn-lg" value="Buscar">
+      <a type="button" class="btn" href="{% url 'lojista:homepage' %}">Voltar</button></p>
     </div>
-    {% csrf_token %}
-    <p><input type="submit" class="btn btn-primary btn-lg" value="Gravar">
-    <a type="button" class="btn" href="{% url 'participante:search' %}">Cancelar</button></p>
 </form>
 
 

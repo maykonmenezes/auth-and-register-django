@@ -10,6 +10,7 @@ from lojista import urls as lurls
 from cupom import urls as curls
 from bcp import urls as burls
 
+handler404 = 'participante.views.not_found_page_view'
 
 urlpatterns = [
     path('', include(purls)),
