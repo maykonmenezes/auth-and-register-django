@@ -8,6 +8,7 @@ from .models import Profile
 
 
 app_name = 'participante'
+handler404 = 'views.not_found_page_view'
 
 urlpatterns = [
     # url(r'^login/$', views.user_login, name='login'),

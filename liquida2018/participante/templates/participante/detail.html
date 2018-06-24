@@ -44,13 +44,25 @@
                 <td><a data-toggle="modal" href="#{{ doc.numeroDocumento }}cartao"class="btn btn-primary a-btn-slide-text btn-sm">
               <span class="glyphicon glyphicon-picture" aria-hidden="true"></span>
               <span><strong>Ver</strong></span> </a></td>
-                <td>  <input type="checkbox" name="" value=""> </td>
-                <td> <input type="checkbox" name="" value=""> </td>
-                <td> <a data-toggle="modal" href="#{{ doc.numeroDocumento }}cartao"class="btn btn-warning a-btn-slide-text btn-sm">
-              <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-              <span><strong>Validar</strong></span> </a> </td>
-                <td>Ilegivel</td>
-                <td>X</td>
+              <form action="{% url "participante:editdocfiscal" doc.numeroDocumento %}" method="post">
+                <td>{% if doc.compradoMASTERCARD %}
+                    <span style="color:lightgreen" class="glyphicon glyphicon-ok" aria-hidden="true">
+                    {% else %}
+                    <span style="color:red" class="glyphicon glyphicon-remove" aria-hidden="true">
+                    {% endif %}
+                  </td>
+                <td>  {% if doc.compradoREDE %}
+                    <span style="color:lightgreen" class="glyphicon glyphicon-ok" aria-hidden="true">
+                    {% else %}
+                    <span style="color:red" class="glyphicon glyphicon-remove" aria-hidden="true">
+                    {% endif %}
+                  </td>
+                {% csrf_token %}
+                <td> <input type="submit" class="btn btn-warning a-btn-slide-text btn-sm" value="Validar"> </td>
+              </form>
+
+                <td>{{ doc.observacao }}</td>
+                <td>{{ doc.get_cupons }}</td>
                 <td><a data-toggle="modal" class="btn btn-info a-btn-slide-text btn-sm">
               <span class="glyphicon glyphicon-print" aria-hidden="true"></span>
               <span><strong>Imprimir</strong></span></span></button></td>

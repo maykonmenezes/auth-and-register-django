@@ -59,16 +59,18 @@ class DocumentoFiscal(models.Model):
     numeroDocumento = models.CharField(verbose_name=u'Número do Documento', max_length=12, blank=False, null=False, unique=True)
     dataDocumento = models.DateField(verbose_name=u'Data do Documento', null=False, blank=False)
     valorDocumento = models.DecimalField(verbose_name=u'Valor do Documento', max_digits=7, decimal_places=2, blank=False, default=0, validators=[validators.MinValueValidator(40,message='O valor do documento deve ser maior que 40 reais!')])
-    compradoREDE = models.BooleanField(verbose_name=u'Compra na REDE', default=False)
+    compradoREDE = models.BooleanField(verbose_name=u'Comprou na maquininha da REDE?', default=False)
+    compradoMASTERCARD = models.BooleanField(verbose_name=u'Comprou com MASTERCARD?', default=False)
     valorREDE = models.DecimalField(verbose_name=u'Valor na REDE', max_digits=7, decimal_places=2, editable=False, blank=True, default=0)   #depois posso nao mostrar
     photo = models.ImageField(upload_to='docs/%Y/%m/%d', blank=True, verbose_name=u'Foto do documento fiscal')
     photo2 = models.ImageField(upload_to='docs2/%Y/%m/%d', blank=True, verbose_name=u'Foto do comprovante do cartão')
-    compradoMASTERCARD = models.BooleanField(verbose_name=u'Compra com MASTERCARD', default=False)
     valorMASTERCARD = models.DecimalField(verbose_name=u'Valor no MASTERCARD', max_digits=7, decimal_places=2, editable=False, blank=True, default=0)   #depois posso nao mostrar
     valorVirtual = models.DecimalField(verbose_name=u'Valor com Bonificações', max_digits=7, decimal_places=2, editable=False, blank=True, default=0)   #depois posso nao mostrar
     dataCadastro = models.DateTimeField(verbose_name=u'Cadastrado em', auto_now_add=True, editable=False)
     cadastradoPor = CurrentUserField(verbose_name=u'Cadastrado Por', editable=False)
     status = models.BooleanField(verbose_name=u'Status', default=False)
+    pendente = models.BooleanField(verbose_name=u'Pendente', default=True)
+    observacao = models.TextField(verbose_name=u'Observação', max_length=1000, blank=True, null=True )
     #slug = models.SlugField(max_length=200, blank=True)
 
 
@@ -84,35 +86,25 @@ class DocumentoFiscal(models.Model):
         return reverse('participante:editdocfiscal', args=[self.numeroDocumento])
 
 #    def soma_valor(self, ValorDocumento, CompradoREDE, CompradoMASTERCARD):
-    def valores(valor, rede, master):
-        rede = 'True'
-        master = 'True'
-        gasto_real = valor
-        gasto_rede = 0
-        gasto_master = 0
-        gasto_virtual = 0
-        if rede == 'True' and master == 'True':
-            gasto_virtual = gasto_real * 3
-            gasto_rede = gasto_real * 2
-            gasto_master = gasto_real * 3
+    def get_cupons(self):
 
-        elif rede == 'True' and master == 'False':
-            gasto_virtual = gasto_real * 2
-            gasto_rede = gasto_real * 2
-            gasto_master = 0
+        if self.compradoREDE == 'True' and self.compradoMASTERCARD == 'True':
+            self.valorVirtual = self.valorDocumento * 3
+            self.valorREDE = self.valorDocumento * 2
+            self.valorMASTERCARD = self.valorDocumento * 3
 
-        elif rede == 'False' and master == 'True':
-            gasto_virtual = gasto_real * 2
-            gasto_rede = 0
-            gasto_master = gasto_real * 2
+        elif self.compradoREDE == 'True' and self.compradoMASTERCARD == 'False':
+            self.valorVirtual = self.valorDocumento * 2
+            self.valorREDE = self.valorDocumento * 2
+            self.valorMASTERCARD = 0
 
-            dados = {'gasto_real': gasto_real,
-                    'gasto_rede': gasto_rede,
-                    'gasto_master': gasto_master,
-                    'gasto_virtual': gasto_virtual}
+        elif self.compradoREDE == 'False' and self.compradoMASTERCARD == 'True':
+            self.valorVirtual = self.valorDocumento * 2
+            self.valorREDE = 0
+            self.valorMASTERCARD = self.valorDocumento * 2
+        else:
+            self.valorVirtual = self.valorDocumento
 
-            return dados
+        cupons = self.valorVirtual // 40
 
-
-class Cpf(models.Model):
-    numero = models.CharField(max_length=14, blank=True, unique=True)
+        return cupons

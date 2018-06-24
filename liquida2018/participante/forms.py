@@ -2,18 +2,11 @@ from django import forms
 from django.conf import settings
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Profile, Cpf
+from .models import Profile
 from .models import DocumentoFiscal
 from localflavor.br.forms import *
 from localflavor.br.br_states import STATE_CHOICES
 
-
-class SearchByCpfForm(forms.Form):
-    CPF = BRCPFField(label="CPF",required=True, max_length=14, min_length=11, widget=forms.TextInput(attrs={'placeholder':'CPF*',
-                                                                                                               'class':'cpf'}))
-    class Meta:
-        model = Profile
-        fields = '__all__'
 
 class LoginForm(forms.Form):
     username = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Digite seu usuario', 'class':'form-control'}))
@@ -97,11 +90,12 @@ class UserAddFiscalDocForm(forms.ModelForm):
     photo2 = forms.ImageField(label='Comprovante do cartão', required=False)
     class Meta:
         model = DocumentoFiscal
-        fields = ('lojista_cnpj', 'vendedor', 'numeroDocumento', 'dataDocumento', 'valorDocumento', 'photo', 'photo2')
+        fields = ('lojista_cnpj', 'vendedor', 'numeroDocumento', 'dataDocumento', 'valorDocumento', 'compradoMASTERCARD', 'compradoREDE',
+                    'photo', 'photo2')
         widgets = {
             #'lojista': forms.HiddenInput,
-            'compradoREDE': forms.HiddenInput,
-            'compradoMASTERCARD': forms.HiddenInput,
+            'pendente': forms.HiddenInput,
+            'observacao': forms.HiddenInput,
             'valorREDE': forms.HiddenInput,
             'valorMASTERCARD': forms.HiddenInput,
             'valorVirtual': forms.HiddenInput,
@@ -112,8 +106,8 @@ class DocumentoFiscalEditForm(forms.ModelForm):
         model = DocumentoFiscal
         fields = '__all__'
         widgets = {
-            'compradoREDE': forms.HiddenInput,
-            'compradoMASTERCARD': forms.HiddenInput,
+            'pendente': forms.HiddenInput,
+            'observacao': forms.HiddenInput,
             'valorREDE': forms.HiddenInput,
             'valorMASTERCARD': forms.HiddenInput,
             'valorVirtual': forms.HiddenInput,

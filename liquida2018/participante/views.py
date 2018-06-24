@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .forms import LoginForm, UserRegistrationForm, UserEditForm, ProfileEditForm, UserAddFiscalDocForm, DocumentoFiscalEditForm, ProfileRegistrationForm, SearchByCpfForm
+from .forms import LoginForm, UserRegistrationForm, UserEditForm, ProfileEditForm, UserAddFiscalDocForm, DocumentoFiscalEditForm, ProfileRegistrationForm
 from .models import Profile, DocumentoFiscal
 from lojista.models import Lojista
 from .filters import UserFilter, DocFilter
