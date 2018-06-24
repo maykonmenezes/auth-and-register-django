@@ -44,6 +44,7 @@ urlpatterns = [
     re_path(r'^adddocfiscal/(?P<username>[-\w]+)/$', views.adddocfiscalbyop, name='adddocfiscalbyop'),
     path('editdocfiscal/', views.editdocfiscal, name='editdocfiscal'),
     re_path(r'^editdocfiscal/(?P<numerodocumento>[\d,.?!]+)/$', views.editdocfiscal, name='editdocfiscal'),
+    re_path(r'^validadocfiscal/(?P<numerodocumento>[\d,.?!]+)/$', views.validadocfiscal, name='validadocfiscal'),
 
     # login / logout paths
     path('login/', login, name='login'),

@@ -113,6 +113,16 @@ class DocumentoFiscalEditForm(forms.ModelForm):
             'valorVirtual': forms.HiddenInput,
         }
 
+class DocumentoFiscalValidaForm(forms.ModelForm):
+    class Meta:
+        model = DocumentoFiscal
+        fields = '__all__'
+        widgets = {
+            'status': forms.HiddenInput,
+            
+        }
+
+
 class ProfileEditForm(forms.ModelForm):
     date_of_birth = forms.DateField(label='Data de Nascimento',required=False)
     photo = forms.ImageField(label='Foto')

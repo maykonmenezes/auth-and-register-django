@@ -9,6 +9,7 @@ from .models import Cupom
 from bcp.views import print_barcode
 from participante.models import DocumentoFiscal
 from .crypto import Crpto
+
 @login_required
 @user_passes_test(lambda u: u.is_superuser)
 def detail(request):
@@ -20,15 +21,22 @@ def addcupom(request, numerodocumento):
     if request.method == 'POST':
         cupom_form = AddCupomForm(request.POST)
         doc = get_object_or_404(DocumentoFiscal, numeroDocumento=numerodocumento)
-        if cupom_form.is_valid():
-            new_cupom = cupom_form.save(commit=False)
-            new_cupom.documentoFiscal = doc
-            new_cupom.user = doc.user
-            new_cupom.operador = request.user
-            new_cupom.save()
-            messages.success(request, 'Cupom gerado com sucesso')
+        new_cupom = cupom_form.save(commit=False)
+        new_cupom.documentoFiscal = doc
+        new_cupom.user = doc.user
+        new_cupom.operador = request.user
+        new_cupom.save()
+        messages.success(request, 'Cupom gerado com sucesso')
     else:
         messages.success(request, 'Erro ao gerar o cupom')
+
+def gerarcupons(request, numerodocumento):
+    if request.method == 'POST':
+        doc = get_object_or_404(DocumentoFiscal, numeroDocumento=numerodocumento)
+        qtde = int(doc.get_cupons())
+        for c in range(qtde):
+            addcupom(request, numerodocumento)
+    messages.success(request, 'Cupons gerados com sucesso!')
 
 @login_required
 @user_passes_test(lambda u: u.is_superuser)

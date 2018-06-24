@@ -70,7 +70,7 @@ class DocumentoFiscal(models.Model):
     cadastradoPor = CurrentUserField(verbose_name=u'Cadastrado Por', editable=False)
     status = models.BooleanField(verbose_name=u'Status', default=False)
     pendente = models.BooleanField(verbose_name=u'Pendente', default=True)
-    observacao = models.TextField(verbose_name=u'Observação', max_length=1000, blank=True, null=True )
+    observacao = models.TextField(verbose_name=u'Observação', max_length=1000, blank=True, null=True , default='Nenhuma')
     #slug = models.SlugField(max_length=200, blank=True)
 
 
@@ -85,7 +85,7 @@ class DocumentoFiscal(models.Model):
     def get_absolute_url(self):
         return reverse('participante:editdocfiscal', args=[self.numeroDocumento])
 
-#    def soma_valor(self, ValorDocumento, CompradoREDE, CompradoMASTERCARD):
+
     def get_cupons(self):
 
         if self.compradoREDE and self.compradoMASTERCARD:
@@ -104,7 +104,7 @@ class DocumentoFiscal(models.Model):
             self.valorMASTERCARD = self.valorDocumento * 2
         else:
             self.valorVirtual = self.valorDocumento
-            
+
         cupons = self.valorVirtual // 40
 
         return cupons

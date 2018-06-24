@@ -4,12 +4,14 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .forms import LoginForm, UserRegistrationForm, UserEditForm, ProfileEditForm, UserAddFiscalDocForm, DocumentoFiscalEditForm, ProfileRegistrationForm
+from .forms import *
 from .models import Profile, DocumentoFiscal
 from lojista.models import Lojista
 from .filters import UserFilter, DocFilter
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.db.models.functions import Lower, Upper
+from cupom.forms import AddCupomForm
+from cupom.models import Cupom
 
 def not_found_page_view(request):
     return render(request, 'not_found.html')
@@ -244,6 +246,28 @@ def editdocfiscal(request, numerodocumento):
         instance = get_object_or_404(DocumentoFiscal, numeroDocumento=numerodocumento)
         documentofiscal_form = DocumentoFiscalEditForm(instance=instance)
     return render(request, 'participante/doc_fiscal_edit.html', {'documentofiscal_form': documentofiscal_form})
+
+@login_required
+def validadocfiscal(request, numerodocumento):
+    if request.method == 'POST':
+        instance = get_object_or_404(DocumentoFiscal, numeroDocumento=numerodocumento)
+        documentofiscal_form = DocumentoFiscalValidaForm(instance=instance,data=request.POST,
+                                                                    files=request.FILES)
+        profile = get_object_or_404(Profile, user= instance.user)
+        docs = DocumentoFiscal.objects.filter(user=instance.user)
+        if documentofiscal_form.is_valid():
+            new_doc = documentofiscal_form.save()
+            qtde = int(new_doc.get_cupons())
+            for x in range(qtde):
+                cupom = Cupom.objects.create(documentoFiscal=new_doc, user=new_doc.user, operador=request.user)
+            messages.success(request, 'Documento Fiscal validado com sucesso')
+            return render(request, 'participante/detail.html', {'section': 'people','user': profile, 'docs': docs})
+        else:
+            messages.error(request, 'Erro na validação do Documento Fiscal')
+    else:
+        instance = get_object_or_404(DocumentoFiscal, numeroDocumento=numerodocumento)
+        documentofiscal_form = DocumentoFiscalValidaForm(instance=instance)
+    return render(request, 'participante/doc_fiscal_valida.html', {'documentofiscal_form': documentofiscal_form, 'doc':instance})
 
 
 @login_required

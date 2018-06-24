@@ -18,26 +18,26 @@
     </div>
   </form>
 <div class="table-responsive">
-  <table class="table table-hover table-striped">
+  <table class="table table-hover table-striped" >
     <thead>
       <tr>
-        <th>Nome</th>
-        <th>CPF</th>
-        <th>Email</th>
-        <th>Data de cadastro</th>
-        <th>Pergunta</th>
-        <th>Validar</th>
+        <th style="text-align: center; vertical-align:middle !important">Nome</th>
+        <th style="text-align: center; vertical-align:middle !important">CPF</th>
+        <th style="text-align: center; vertical-align:middle !important">Email</th>
+        <th style="text-align: center; vertical-align:middle !important">Data de cadastro</th>
+        <th style="text-align: center; vertical-align:middle !important">Pergunta</th>
+        <th style="text-align: center; vertical-align:middle !important"></th>
       </tr>
     </thead>
     <tbody>
       {% for user in filter.qs %}
         <tr>
-          <td>{{ user.nome|upper }}</td>
-          <td>{{ user.CPF }}</td>
-          <td>{{ user.user.email }}</td>
-          <td>{{ user.dataCadastro|date:"d M Y" }}</td>
-          <td>{{ user.pergunta}}</td>
-          <td><a data-toggle="modal" href="#{{ user.user.username }}"class="btn btn-primary a-btn-slide-text btn-sm">
+          <td style="text-align: center; vertical-align:middle !important">{{ user.nome|upper }}</td>
+          <td style="text-align: center; vertical-align:middle !important">{{ user.CPF }}</td>
+          <td style="text-align: center; vertical-align:middle !important">{{ user.user.email }}</td>
+          <td style="text-align: center; vertical-align:middle !important">{{ user.dataCadastro|date:"d/m/Y" }}</td>
+          <td style="text-align: center; vertical-align:middle !important">{{ user.pergunta}}</td>
+          <td style="text-align: center; vertical-align:middle !important"><a data-toggle="modal" href="#{{ user.user.username }}"class="btn btn-primary a-btn-slide-text btn-sm">
         <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
         <span><strong>Ver</strong></span> </a>
         <a href="{{ user.get_absolute_url_edit }}" class="btn btn-secondary a-btn-slide-text btn-sm">

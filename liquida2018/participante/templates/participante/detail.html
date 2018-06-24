@@ -16,56 +16,90 @@
       <table class="table table-hover table-bordered text-center">
         <thead>
           <tr>
-            <th>Loja</th>
-            <th>Documentos</th>
-            <th>Data da Compra</th>
-            <th>Valor</th>
-            <th>Documento fiscal</th>
-            <th>Comprovante do Cartão</th>
-            <th>MASTERCARD</th>
-            <th>Rede</th>
-            <th>Validado</th>
-            <th>Pendencias</th>
-            <th>Cupons</th>
-            <th>Imprimir</th>
+            <th style="text-align: center; vertical-align:middle !important">Loja</th>
+            <th style="text-align: center; vertical-align:middle !important">Documentos</th>
+            <th style="text-align: center; vertical-align:middle !important">Data da Compra</th>
+            <th style="text-align: center; vertical-align:middle !important">Valor</th>
+            <th style="text-align: center; vertical-align:middle !important">Documento fiscal</th>
+            <th style="text-align: center; vertical-align:middle !important">Comprovante do Cartão</th>
+            <th style="text-align: center; vertical-align:middle !important">MASTERCARD</th>
+            <th style="text-align: center; vertical-align:middle !important">Rede</th>
+            <th style="text-align: center; vertical-align:middle !important">Validado</th>
+            <th style="text-align: center; vertical-align:middle !important">Pendencias</th>
+            <th style="text-align: center; vertical-align:middle !important">Cupons</th>
+            <th style="text-align: center; vertical-align:middle !important">Imprimir</th>
           </tr>
         </thead>
         <tbody>
           {% for doc in docs %}
 
               <tr>
-                <td>{{ doc.lojista }}</td>
-                <td><a href="{{ doc.get_absolute_url }}">{{ doc.numeroDocumento }}</a></td>
-                <td>{{ doc.dataDocumento|date:"d M Y" }}</td>
-                <td>{{ doc.valorDocumento }}</td>
-                <td><a data-toggle="modal" href="#{{ doc.numeroDocumento }}fiscal"class="btn btn-primary a-btn-slide-text btn-sm">
-              <span class="glyphicon glyphicon-picture" aria-hidden="true"></span>
-              <span><strong>Ver</strong></span> </a></td>
-                <td><a data-toggle="modal" href="#{{ doc.numeroDocumento }}cartao"class="btn btn-primary a-btn-slide-text btn-sm">
-              <span class="glyphicon glyphicon-picture" aria-hidden="true"></span>
-              <span><strong>Ver</strong></span> </a></td>
-              <form action="{% url "participante:editdocfiscal" doc.numeroDocumento %}" method="post">
-                <td>{% if doc.compradoMASTERCARD %}
-                    <span style="color:lightgreen" class="glyphicon glyphicon-ok" aria-hidden="true">
-                    {% else %}
-                    <span style="color:red" class="glyphicon glyphicon-remove" aria-hidden="true">
-                    {% endif %}
-                  </td>
-                <td>  {% if doc.compradoREDE %}
-                    <span style="color:lightgreen" class="glyphicon glyphicon-ok" aria-hidden="true">
-                    {% else %}
-                    <span style="color:red" class="glyphicon glyphicon-remove" aria-hidden="true">
-                    {% endif %}
-                  </td>
-                {% csrf_token %}
-                <td> <input type="submit" class="btn btn-warning a-btn-slide-text btn-sm" value="Validar"> </td>
-              </form>
+                <td style="text-align: center; vertical-align:middle !important">{{ doc.lojista }}</td>
+                <td style="text-align: center; vertical-align:middle !important"><a href="{{ doc.get_absolute_url }}">{{ doc.numeroDocumento }}</a></td>
+                <td style="text-align: center; vertical-align:middle !important">{{ doc.dataDocumento|date:"d/m/Y" }}</td>
+                <td style="text-align: center; vertical-align:middle !important">{{ doc.valorDocumento }}</td>
+                <td style="text-align: center; vertical-align:middle !important">
+                  {% if not doc.photo %}
+                <a style="pointer-events:none; background-color:gray" data-toggle="modal" href="#{{ doc.numeroDocumento }}fiscal"class="btn btn-primary a-btn-slide-text btn-sm">
+                  <span class="glyphicon glyphicon-picture" aria-hidden="true"></span>
+                  <span><strong>Ver</strong></span> </a>
+                {% else %}
+                <a data-toggle="modal" href="#{{ doc.numeroDocumento }}fiscal"class="btn btn-primary a-btn-slide-text btn-sm">
+                  <span class="glyphicon glyphicon-picture" aria-hidden="true"></span>
+                  <span><strong>Ver</strong></span> </a>
+                {% endif %}
+              </td>
+                <td style="text-align: center; vertical-align:middle !important">
+                  {% if not doc.photo2 %}
+                  <a style="pointer-events:none; background-color:gray" data-toggle="modal" href="#{{ doc.numeroDocumento }}cartao"class="btn btn-primary a-btn-slide-text btn-sm">
+                    <span class="glyphicon glyphicon-picture" aria-hidden="true"></span>
+                    <span><strong>Ver</strong></span> </a>
+                  {% else %}
+                  <a data-toggle="modal" href="#{{ doc.numeroDocumento }}cartao"class="btn btn-primary a-btn-slide-text btn-sm">
+                    <span class="glyphicon glyphicon-picture" aria-hidden="true"></span>
+                    <span><strong>Ver</strong></span> </a>
+                  {% endif %}
 
-                <td>{{ doc.observacao }}</td>
-                <td>{{ doc.get_cupons }}</td>
-                <td><a data-toggle="modal" class="btn btn-info a-btn-slide-text btn-sm">
-              <span class="glyphicon glyphicon-print" aria-hidden="true"></span>
-              <span><strong>Imprimir</strong></span></span></button></td>
+            </td>
+                <td style="text-align: center; vertical-align:middle !important">{% if doc.compradoMASTERCARD %}
+                    <span style="color:lightgreen" class="glyphicon glyphicon-ok" aria-hidden="true">
+                    {% else %}
+                    <span style="color:red" class="glyphicon glyphicon-remove" aria-hidden="true">
+                    {% endif %}
+                  </td>
+                <td style="text-align: center; vertical-align:middle !important">  {% if doc.compradoREDE %}
+                    <span style="color:lightgreen" class="glyphicon glyphicon-ok" aria-hidden="true">
+                    {% else %}
+                    <span style="color:red" class="glyphicon glyphicon-remove" aria-hidden="true">
+                    {% endif %}
+                  </td>
+
+                <td style="text-align: center; vertical-align:middle !important">
+                  {% if not doc.pendente %}
+                  <a style="pointer-events:none; background-color:gray" data-toggle="modal" class="btn btn-primary a-btn-slide-text btn-sm">
+                    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                    <span><strong>Validar</strong></span> </a>
+                  {% else %}
+                  <a data-toggle="modal" href="{% url "participante:validadocfiscal" doc.numeroDocumento %}" class="btn btn-primary a-btn-slide-text btn-sm">
+                    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                    <span><strong>Validar</strong></span> </a>
+                  {% endif %}
+                </td>
+
+
+                <td style="text-align: center; vertical-align:middle !important">{{ doc.observacao }}</td>
+                <td style="text-align: center; vertical-align:middle !important">{{ doc.get_cupons }}</td>
+                <td style="text-align: center; vertical-align:middle !important">
+                  {% if doc.pendente %}
+                  <a style="pointer-events:none; background-color:gray" data-toggle="modal" href="#{{ doc.numeroDocumento }}cartao"class="btn btn-primary a-btn-slide-text btn-sm">
+                    <span class="glyphicon glyphicon-print" aria-hidden="true"></span>
+                    <span><strong>Imprimir</strong></span> </a>
+                  {% else %}
+                  <a data-toggle="modal" class="btn btn-primary a-btn-slide-text btn-sm">
+                    <span class="glyphicon glyphicon-print" aria-hidden="true"></span>
+                    <span><strong>Imprimir</strong></span> </a>
+                  {% endif %}
+                </td>
               </tr>
 
               <!-- Modal -->
