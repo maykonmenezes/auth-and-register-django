@@ -17,8 +17,9 @@ urlpatterns = [
     # path('search/', FilterView.as_view(filterset_class=UserFilter,
     #     template_name='participante/participante_list.html'), name='search'),
     path('search/', views.search, name='search'),
+    path('participante/cpf', views.search_by_cpf, name='search_by_cpf'),
 
-    url(r'^list$', views.participante_list),
+    url(r'^list$', views.participante_list, name='list'),
 
 
     re_path(r'^participante/(?P<username>[-\w]+)/detail$', views.user_detail, name='user_detail'),
@@ -33,13 +34,15 @@ urlpatterns = [
     path('premios/', views.premios, name='premios'),
 
 
-    path('register/', views.register, name='register'),
+    path('cadastrar/', views.register, name='register'),
+    path('register/', views.register2, name='register-op'),
     path('edit/', views.edit, name='edit'),
 
     # Documentos Fiscais paths
     path('adddocfiscal/', views.adddocfiscal, name='adddocfiscal'),
+    re_path(r'^adddocfiscal/(?P<username>[-\w]+)/$', views.adddocfiscalbyop, name='adddocfiscalbyop'),
     path('editdocfiscal/', views.editdocfiscal, name='editdocfiscal'),
-    re_path(r'^editdocfiscal/(?P<numerodocumento>[-\w]+)/$', views.editdocfiscal, name='editdocfiscal'),
+    re_path(r'^editdocfiscal/(?P<numerodocumento>[\d,.?!]+)/$', views.editdocfiscal, name='editdocfiscal'),
 
     # login / logout paths
     path('login/', login, name='login'),

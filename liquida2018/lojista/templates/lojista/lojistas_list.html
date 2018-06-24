@@ -31,7 +31,7 @@
       {% for lojista in filter.qs %}
         <tr>
           <td>{{ lojista.fantasiaLojista }}</td>
-          <td><a href="{{ lojista.get_absolute_url }}">{{ lojista.CNPJ }}</a></td>
+          <td><a href="{{ lojista.get_absolute_url }}">{{ lojista.CNPJLojista }}</a></td>
           <td>{{ lojista.IELojista }}</td>
           <td>{{ lojista.ramoAtividade }}</td>
         </tr>

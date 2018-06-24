@@ -12,7 +12,7 @@ urlpatterns = [
     path('register/', views.register, name='register'),
     path('edit/', views.edit, name='edit'),
     path('list/', views.lojistalist, name='list'),
-    re_path(r'^edit/(?P<ielogista>[-\w]+)$', views.editlojista, name='editlojista'),
+    re_path(r'^edit/(?P<ielojista>[\d,.?!]+)/$', views.editlojista, name='editlojista'),
     # path('search/', FilterView.as_view(filterset_class=LojistaFilter,
     #     template_name='lojista/lojistas_list.html'), name='search'),
     path('search/', views.search, name='search'),

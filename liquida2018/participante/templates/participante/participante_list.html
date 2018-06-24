@@ -44,7 +44,7 @@
           <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
           <span><strong>Editar</strong></span>
       </a>
-      <a href="{% url 'participante:adddocfiscal' %}" class="btn btn-info a-btn-slide-text btn-sm">
+      <a href="{% url 'participante:adddocfiscal' %}{{ user.user.username }}" class="btn btn-info a-btn-slide-text btn-sm">
         <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
         <span><strong>Lançar</strong></span>
     </a>

@@ -31,7 +31,7 @@ class RamoAtividade(models.Model):
 
 class Lojista(models.Model):
     CNPJLojista     = models.CharField(verbose_name=u'CNPJ do Lojista*', max_length=18, blank=False, null=True, unique=True, help_text=u'ex. 00.000.000/0000-00')
-    IELojista       = models.CharField(verbose_name=u'Inscrição Estadual*', max_length=14, blank=True)
+    IELojista       = models.CharField(verbose_name=u'Inscrição Estadual*', max_length=14, blank=True, unique=True)
     razaoLojista    = models.CharField(verbose_name=u'Razão Social*', max_length=70, blank=True, null=True, help_text=u'Razão Social')
     fantasiaLojista = models.CharField(verbose_name=u'Nome Fantasia*', max_length=70, blank=False, help_text=u'Nome Fantasia')
     ramoAtividade   = models.ForeignKey('RamoAtividade', verbose_name=u'Ramo de Atividade*', on_delete=models.SET_NULL, null=True)

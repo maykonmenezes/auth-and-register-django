@@ -2,11 +2,18 @@ from django import forms
 from django.conf import settings
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Profile
+from .models import Profile, Cpf
 from .models import DocumentoFiscal
 from localflavor.br.forms import *
 from localflavor.br.br_states import STATE_CHOICES
 
+
+class SearchByCpfForm(forms.Form):
+    CPF = BRCPFField(label="CPF",required=True, max_length=14, min_length=11, widget=forms.TextInput(attrs={'placeholder':'CPF*',
+                                                                                                               'class':'cpf'}))
+    class Meta:
+        model = Profile
+        fields = '__all__'
 
 class LoginForm(forms.Form):
     username = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Digite seu usuario', 'class':'form-control'}))
@@ -47,12 +54,15 @@ class ProfileRegistrationForm(forms.ModelForm):
     endereco = forms.CharField( required=True, widget=forms.TextInput(attrs={'placeholder':'Endereço*'}))
     enderecoNumero = forms.CharField( widget=forms.TextInput(attrs={'placeholder':'Nº*'}))
     enderecoComplemento = forms.CharField(required=False, widget=forms.TextInput(attrs={'placeholder':'Complemento'}))
-    bairro = forms.CharField(required=True, widget=forms.TextInput(attrs={'placeholder':'Bairro'}))
-    cidade = forms.CharField(required=True, widget=forms.TextInput(attrs={'placeholder':'Cidade'}))
+    bairro = forms.CharField(required=True, widget=forms.TextInput(attrs={'placeholder':'Bairro*'}))
+    cidade = forms.CharField(required=True, widget=forms.TextInput(attrs={'placeholder':'Cidade*'}))
+    estado = forms.ChoiceField(required=True, choices=STATE_CHOICES, widget=forms.Select(attrs={'id' : 'estados'}))
+    CEP = BRZipCodeField(label='Cep*' , widget=forms.TextInput(attrs={'class':'cep', 'placeholder':'CEP*'}))
+    pergunta = forms.CharField( required=True, widget=forms.TextInput(attrs={'placeholder':'Liquida Teresina'}))
     class Meta:
         model = Profile
         fields = ('nome', 'RG', 'CPF', 'sexo', 'foneFixo', 'foneCelular1', 'foneCelular2', 'foneCelular3',
-                  'whatsapp','facebook','twitter','endereco','enderecoNumero','enderecoComplemento',
+                  'whatsapp','facebook','twitter','endereco','enderecoNumero','enderecoComplemento', 'estado',
                   'cidade','bairro','CEP','pergunta' )
         exclude = ('user', 'dataCadastro', 'cadastradoPor', 'ativo', 'pendente')
 
@@ -79,11 +89,17 @@ class UserAddCoupom(forms.ModelForm):
     valorDoCupom = forms.DecimalField(label='Valor do cupom')
 
 class UserAddFiscalDocForm(forms.ModelForm):
-    dataDocumento = forms.DateField(label='Data do documento',widget=forms.TextInput(attrs={ 'class':'date'}))
+    lojista_cnpj = BRCNPJField(label='CNPJ da loja*', required=True, max_length=18, widget=forms.TextInput(attrs={'class':'cnpj'}))
+    dataDocumento = forms.DateField(label='Data*',widget=forms.TextInput(attrs={ 'class':'date'}))
+    valorDocumento = forms.DecimalField(label='Valor*')
+    numeroDocumento = forms.CharField(label='Número do documento*')
+    photo = forms.ImageField(label='Documento fiscal', required=False)
+    photo2 = forms.ImageField(label='Comprovante do cartão', required=False)
     class Meta:
         model = DocumentoFiscal
-        fields = '__all__'
+        fields = ('lojista_cnpj', 'vendedor', 'numeroDocumento', 'dataDocumento', 'valorDocumento', 'photo', 'photo2')
         widgets = {
+            #'lojista': forms.HiddenInput,
             'compradoREDE': forms.HiddenInput,
             'compradoMASTERCARD': forms.HiddenInput,
             'valorREDE': forms.HiddenInput,

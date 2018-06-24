@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -28,7 +28,6 @@ def homepage(request):
 def register(request):
     if request.method == 'POST':
         lojista_form = LojistaRegistrationForm(request.POST)
-        ramoatividade_form = RamoAtividadeRegistrationForm(request.POST)
         if lojista_form.is_valid():
             # Create a new user object but avoid saving it yet
             new_lojista = lojista_form.save(commit=False)
@@ -37,16 +36,10 @@ def register(request):
             return render(request,
                           'lojista/register_done.html',
                           {'new_lojista': new_lojista})
-        elif ramoatividade_form.is_valid():
-            new_ramoatividade = ramoatividade_form.save()
-            messages.success(request, 'Ramo adicionado com sucesso')
-        else:
-            messages.error(request, 'Erro ao adicionar novo ramo!')
 
     else:
         lojista_form = LojistaRegistrationForm()
-        ramoatividade_form = RamoAtividadeRegistrationForm()
-    return render(request, 'lojista/register.html', {'lojista_form': lojista_form, 'ramoatividade_form':ramoatividade_form})
+    return render(request, 'lojista/register.html', {'lojista_form': lojista_form   })
 
 @login_required
 @user_passes_test(lambda u: u.is_superuser)

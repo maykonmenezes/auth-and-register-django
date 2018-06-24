@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %}Documento fiscal lançado com sucesso!{% endblock %}
+
+{% block content %}
+    <h1>O documento numero <strong>{{ new_documentoFiscal.numeroDocumento }}</strong> foi lançado para o participante <strong> {{participante.username}}</strong>!</h1>
+    <p><a type="button" id="mymodal" class="btn btn-primary btn-lg" data-toggle="modal" href="{% url "participante:adddocfiscal" %}{{participante.username}}">
+  Adicionar outro documento fiscal
+</a><a type="button" class="btn" href="{% url 'lojista:homepage' %}">Voltar para área de operação</button></p>
+
+{% endblock %}

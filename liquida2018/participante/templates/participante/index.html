@@ -44,9 +44,6 @@
 	<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 		<ul class="nav navbar-nav navbar-right">
 			<li>
-				<a data-toggle="modal" href="#myModal">Entrar</a>
-      </li id="entrar">
-			<li>
 			<a class="page-scroll" href="#page-top">Inicio</a>
 			</li>
 			<li>
@@ -58,6 +55,19 @@
 			<li>
 			<a class="page-scroll" href="{% url 'participante:register' %}">Cadastre-se</a>
 			</li>
+			{% if request.user.is_authenticated and request.user.is_superuser %}
+			<li >
+				<a style="color: #FBB65C" href="{% url 'lojista:homepage' %}">{{ request.user.username }} <span style="color: #30C778" class="glyphicon glyphicon-log-in"> </div></a>
+			</li id="entrar">
+			{% elif user.is_authenticated %}
+			<li style="color: #FBB65C">
+				<a  href="{% url 'participante:dashboard' %}">{{ request.user.username }} <span style="color: #30C778" class="glyphicon glyphicon-user"></span></a>
+			</li id="entrar">
+			{% else %}
+			<li>
+				<a data-toggle="modal" href="#myModal">Entrar <span style="color: #30C778" class="glyphicon glyphicon-log-in"></a>
+			</li id="entrar">
+			{% endif %}
 		</ul>
 	</div>
 	<!-- /.navbar-collapse -->

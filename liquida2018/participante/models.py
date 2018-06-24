@@ -3,6 +3,7 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from lojista.models import Lojista
 from django.urls import reverse
+from django.core import validators
 #from django.contrib.auth import get_user_model
 from django_currentuser.db.models import CurrentUserField
 
@@ -14,8 +15,8 @@ class Profile(models.Model):
     photo = models.ImageField(upload_to='users/%Y/%m/%d', blank=True)
     CHOICES_SEXO = (('M', 'Masculino'), ('F', 'Feminino'))
     nome = models.CharField(max_length=70, blank=True)
-    RG = models.CharField(max_length=12, blank=True)
-    CPF = models.CharField(max_length=14, blank=True)
+    RG = models.CharField(max_length=12, blank=True, unique=True)
+    CPF = models.CharField(max_length=14, blank=True, unique=True)
     #dataAtual = models.DateField(verbose_name=u'Data Atual', null=True, blank=True)  #mudar depois para nao colocar a data atual
     sexo = models.CharField(verbose_name=u'Sexo', max_length=1, choices=CHOICES_SEXO, blank=True, help_text=u'ex. M ou F')
     foneFixo = models.CharField(verbose_name=u'Telefone Fixo', max_length=15, blank=True, help_text=u'ex. (85)3212-0000')
@@ -31,7 +32,7 @@ class Profile(models.Model):
     bairro = models.CharField(max_length=40, blank=True)
     cidade = models.CharField(max_length=50, blank=True, default=u'Teresina')
     estado = models.CharField(max_length=2, blank=True, default=u'PI')
-    CEP = models.CharField(max_length=10, blank=True)
+    CEP = models.CharField(max_length=12, blank=True)
     observacao = models.TextField(verbose_name=u'Observação', max_length=1000, blank=True, null=True ) #, widget=forms.Textarea(attrs={'placeholder': 'Escreva aqui alguma observação caso seja necessário.'}))
     dataCadastro = models.DateTimeField(verbose_name=u'Cadastrado em', auto_now_add=True, editable=False)   #nao vai aparecer na tela
     cadastradoPor = CurrentUserField(verbose_name=u'Cadastrado Por', related_name='rel_cadastrado_por', editable=False)
@@ -57,7 +58,7 @@ class DocumentoFiscal(models.Model):
     vendedor = models.CharField(verbose_name=u'Nome do Vendedor', max_length=50, blank=True, null=True)
     numeroDocumento = models.CharField(verbose_name=u'Número do Documento', max_length=12, blank=False, null=False, unique=True)
     dataDocumento = models.DateField(verbose_name=u'Data do Documento', null=False, blank=False)
-    valorDocumento = models.DecimalField(verbose_name=u'Valor do Documento', max_digits=7, decimal_places=2, blank=False, default=0)
+    valorDocumento = models.DecimalField(verbose_name=u'Valor do Documento', max_digits=7, decimal_places=2, blank=False, default=0, validators=[validators.MinValueValidator(40,message='O valor do documento deve ser maior que 40 reais!')])
     compradoREDE = models.BooleanField(verbose_name=u'Compra na REDE', default=False)
     valorREDE = models.DecimalField(verbose_name=u'Valor na REDE', max_digits=7, decimal_places=2, editable=False, blank=True, default=0)   #depois posso nao mostrar
     photo = models.ImageField(upload_to='docs/%Y/%m/%d', blank=True, verbose_name=u'Foto do documento fiscal')
@@ -83,12 +84,35 @@ class DocumentoFiscal(models.Model):
         return reverse('participante:editdocfiscal', args=[self.numeroDocumento])
 
 #    def soma_valor(self, ValorDocumento, CompradoREDE, CompradoMASTERCARD):
-    def soma_valor(self):
-        soma=0
-        if self.compradoREDE.check():
-            soma = self.valorDocumento * 2
-            return soma
-        else:
-            if self.compradoMASTERCARD.check():
-                soma = self.valorDocumento * 3
-                return soma
+    def valores(valor, rede, master):
+        rede = 'True'
+        master = 'True'
+        gasto_real = valor
+        gasto_rede = 0
+        gasto_master = 0
+        gasto_virtual = 0
+        if rede == 'True' and master == 'True':
+            gasto_virtual = gasto_real * 3
+            gasto_rede = gasto_real * 2
+            gasto_master = gasto_real * 3
+
+        elif rede == 'True' and master == 'False':
+            gasto_virtual = gasto_real * 2
+            gasto_rede = gasto_real * 2
+            gasto_master = 0
+
+        elif rede == 'False' and master == 'True':
+            gasto_virtual = gasto_real * 2
+            gasto_rede = 0
+            gasto_master = gasto_real * 2
+
+            dados = {'gasto_real': gasto_real,
+                    'gasto_rede': gasto_rede,
+                    'gasto_master': gasto_master,
+                    'gasto_virtual': gasto_virtual}
+
+            return dados
+
+
+class Cpf(models.Model):
+    numero = models.CharField(max_length=14, blank=True, unique=True)
