@@ -88,23 +88,23 @@ class DocumentoFiscal(models.Model):
 #    def soma_valor(self, ValorDocumento, CompradoREDE, CompradoMASTERCARD):
     def get_cupons(self):
 
-        if self.compradoREDE == 'True' and self.compradoMASTERCARD == 'True':
+        if self.compradoREDE and self.compradoMASTERCARD:
             self.valorVirtual = self.valorDocumento * 3
             self.valorREDE = self.valorDocumento * 2
             self.valorMASTERCARD = self.valorDocumento * 3
 
-        elif self.compradoREDE == 'True' and self.compradoMASTERCARD == 'False':
+        elif self.compradoREDE:
             self.valorVirtual = self.valorDocumento * 2
             self.valorREDE = self.valorDocumento * 2
             self.valorMASTERCARD = 0
 
-        elif self.compradoREDE == 'False' and self.compradoMASTERCARD == 'True':
+        elif self.compradoMASTERCARD:
             self.valorVirtual = self.valorDocumento * 2
             self.valorREDE = 0
             self.valorMASTERCARD = self.valorDocumento * 2
         else:
             self.valorVirtual = self.valorDocumento
-
+            
         cupons = self.valorVirtual // 40
 
         return cupons
