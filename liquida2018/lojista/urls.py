@@ -16,6 +16,7 @@ urlpatterns = [
     # path('search/', FilterView.as_view(filterset_class=LojistaFilter,
     #     template_name='lojista/lojistas_list.html'), name='search'),
     path('search/', views.search, name='search'),
+    path('cupons/', views.cupons, name='cupons'),
     #re_path(r'^search/(?P<cpf>[-\w]+)$', views.search_cpf, name='searchbycpf'),
     # Ramo de atividades pathpatterns
     path('registeratividade/', views.registeratividade, name='registeratividade'),

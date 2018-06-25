@@ -6,9 +6,11 @@ from django.contrib import messages
 from django.contrib.auth.decorators import user_passes_test
 from .forms import AddCupomForm, EditCupomForm
 from .models import Cupom
-from bcp.views import print_barcode
+from bcp.views import print_qrcode
 from participante.models import DocumentoFiscal
-from .crypto import Crpto
+
+
+
 
 @login_required
 @user_passes_test(lambda u: u.is_superuser)
@@ -50,6 +52,5 @@ def cupomlist(request, username):
 def printCupom(request, numerodocumento):
     doc_instance = get_object_or_404(DocumentoFiscal, numeroDocumento=numerodocumento )
     cupons = Cupom.objects.filter(doc_instance)
-    for cupon in cupons:
-        token = Crpto.tokenGen(cupon.get_info)
-        print_barcode(request, 'Code128', token)
+    for cupom in cupons:
+        print_qrcode(request, cupom.get_token, numerodocumento)

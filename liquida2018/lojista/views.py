@@ -8,6 +8,23 @@ from .models import Lojista, RamoAtividade
 from django.contrib.auth.decorators import user_passes_test
 from .filters import LojistaFilter
 from django.db.models.functions import Lower, Upper
+from cupom.models import Cupom
+from participante.models import Profile
+from django.contrib.auth.models import User
+
+@login_required
+@user_passes_test(lambda u: u.is_superuser)
+def cupons(request):
+    if(request.GET.get('q')):
+        if 'q' in request.GET is not None:
+            cpf = request.GET.get('q')
+            profile = get_object_or_404(Profile, CPF=cpf)
+            user = get_object_or_404(User, username= profile.user.username)
+            cupons = Cupom.objects.filter(user=user)
+            return render(request, 'lojista/cupons.html', {'section': 'cupons','user': profile, 'cupons': cupons})
+        else:
+            messages.error(request, 'CPF não encontrado!')
+    return render(request, 'lojista/search_by_cpf.html')
 
 @login_required
 @user_passes_test(lambda u: u.is_superuser)

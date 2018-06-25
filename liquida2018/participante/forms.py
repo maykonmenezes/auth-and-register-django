@@ -119,7 +119,7 @@ class DocumentoFiscalValidaForm(forms.ModelForm):
         fields = '__all__'
         widgets = {
             'status': forms.HiddenInput,
-            
+
         }
 
 

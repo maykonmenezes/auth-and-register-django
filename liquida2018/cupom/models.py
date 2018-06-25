@@ -8,6 +8,7 @@ from django_currentuser.db.models import CurrentUserField
 from django.db import models
 from django.urls import reverse
 from django.core.files.uploadedfile import InMemoryUploadedFile
+from .crypto import tokenGen
 
 
 # Create your models here.
@@ -20,15 +21,19 @@ class Cupom(models.Model):
     dataImpressao = models.DateTimeField(null=True)
 
     def __str__(self):
-        return 'Cupom número: {}'.format(self.numeroCupom)
+        return 'Cupom número: {}'.format(self.id)
 
 
     def get_absolute_url(self):
         return reverse('cupom:details', args=[str(self.numeroCupom)])
 
     def get_info(self):
-        return 'Cupom número: {} Usúario: {} Documento Fiscal: {} Operador: {} Data de impressão: {} '.format(self.numeroCupom,
+        return 'Participante: {} CPF:{} Documento Fiscal: {} Operador: {} Data de impressão: {} vendedor: {} '.format(
                                                                                                               self.user.profile.nome,
+                                                                                                              self.user.profile.CPF,
                                                                                                               self.documentoFiscal.numeroDocumento,
-                                                                                                              operador.profile.nome,
-                                                                                                              self.dataImpressao)
+                                                                                                              self.operador.username,
+                                                                                                              self.dataImpressao,
+                                                                                                              self.documentoFiscal.vendedor)
+    def get_token(self):
+        return tokenGen(self.get_info())

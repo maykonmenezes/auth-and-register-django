@@ -41,7 +41,7 @@
           <li {% if section == "lojista" %}class="selected"{% endif %}><a href="{% url "lojista:homepage" %}">Lojistas</a></li>
           <li {% if section == "lojistas" %}class="selected"{% endif %}><a href="{% url "lojista:search" %}">Listar Lojistas</a></li>
           <li {% if section == "participantes" %}class="selected"{% endif %}><a href="{% url "participante:search" %}">Participantes</a></li>
-          <li {% if section == "Cupons" %}class="selected"{% endif %}><a href="{% url "lojista:homepage" %}">Cupons Gerados</a></li>
+          <li {% if section == "Cupons" %}class="selected"{% endif %}><a href="{% url "lojista:cupons" %}">Cupons Gerados</a></li>
           {% else %}
             <li {% if section == "dashboard" %}class="selected"{% endif %}><a href="{% url "participante:dashboard" %}">Minha Conta</a></li>
             <li {% if section == "docsfiscais" %}class="selected"{% endif %}><a href="{% url "participante:docsfiscais" %}">Documentos Fiscais</a></li>
@@ -59,7 +59,7 @@
         {% endif %}
         </span>
     </div>
-    
+
 
     {% if messages %}
         <ul class="messages">
