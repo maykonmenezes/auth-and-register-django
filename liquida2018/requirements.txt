@@ -16,7 +16,7 @@ django-localflavor-br==1.0
 django-widget-tweaks==1.4.2
 idna==2.6
 oauthlib==2.1.0
-Pillow==5.1.0
+Pillow==6.2.0
 pycparser==2.18
 PyJWT==1.6.4
 python-social-auth==0.2.12
